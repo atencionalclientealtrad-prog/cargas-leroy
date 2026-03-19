@@ -1,0 +1,3114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Cargas — Leroy Merlin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F4F0;
+  --surface: #FFFFFF;
+  --surface2: #F0EFE9;
+  --border: #E2E0D8;
+  --border2: #CCCAB8;
+  --text: #1A1916;
+  --text2: #6B6960;
+  --text3: #9E9C94;
+  --accent: #1A1916;
+
+  --amber-bg: #FFF3D6;
+  --amber-text: #7A4F00;
+  --amber-dot: #D4890A;
+
+  --blue-bg: #DFF0FF;
+  --blue-text: #0A4A7A;
+  --blue-dot: #1878C8;
+
+  --green-bg: #D8F5E8;
+  --green-text: #0A5530;
+  --green-dot: #16A05A;
+
+  --teal-bg: #D6F5F0;
+  --teal-text: #0A4A40;
+  --teal-dot: #0D9E88;
+
+  --purple-bg: #EDE8FF;
+  --purple-text: #3A1A7A;
+  --purple-dot: #6B3FD4;
+
+  --red-bg: #FFE5E5;
+  --red-text: #7A1A1A;
+  --red-dot: #D43F3F;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: 56px 1fr;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+.topbar-brand .dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-date {
+  font-size: 12px;
+  color: var(--text2);
+  background: var(--surface2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-section {
+  padding: 6px 16px 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 8px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s, color 0.15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.sidebar-item:hover { background: var(--surface2); color: var(--text); }
+.sidebar-item.active { background: var(--accent); color: white; }
+.sidebar-item .count {
+  margin-left: auto;
+  font-size: 11px;
+  background: rgba(0,0,0,0.08);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.sidebar-item.active .count { background: rgba(255,255,255,0.2); }
+
+.sidebar-divider { height: 1px; background: var(--border); margin: 8px 0; }
+
+.sidebar-stats {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12px;
+  color: var(--text2);
+}
+.sidebar-stat strong { color: var(--text); font-weight: 600; }
+
+/* ── MAIN ── */
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.toolbar-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  flex: 1;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+.search-box input {
+  border: none;
+  background: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  width: 180px;
+}
+.search-box input::placeholder { color: var(--text3); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--surface2); border-color: var(--border2); }
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.btn-primary:hover { background: #333; border-color: #333; }
+
+/* ── TABLE AREA ── */
+.table-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+/* ── CARGAS TABLE ── */
+.cargas-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cargas-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text3);
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.cargas-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  font-size: 13px;
+}
+.cargas-table tr:last-child td { border-bottom: none; }
+.cargas-table tbody tr { transition: background 0.1s; }
+.cargas-table tbody tr:hover td { background: #FAFAF7; }
+
+.fecha-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.prov-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 5px;
+  letter-spacing: 0.02em;
+}
+.prov-dika { background: #DFF0FF; color: #0A4A7A; }
+.prov-irbal { background: #D8F5E8; color: #0A5530; }
+.prov-api { background: #EDE8FF; color: #3A1A7A; }
+
+.tpte-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 5px;
+  letter-spacing: 0.04em;
+}
+.tpte-thc { background: #FFF3D6; color: #7A4F00; }
+.tpte-tw  { background: #D6F5F0; color: #0A4A40; }
+
+.pedidos-cell {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+  max-width: 180px;
+}
+
+.cita-cell {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.cod-cell {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.estado-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.s-posible-carga    { background: #F0EFE9; color: #5F5E5A; }
+.s-posible-carga .estado-dot { background: #888780; }
+.s-espera-cita      { background: #FFF3D6; color: #7A4F00; }
+.s-espera-cita .estado-dot { background: #D4890A; }
+.s-pedir-cita-extra { background: #FFE5E5; color: #7A1A1A; }
+.s-pedir-cita-extra .estado-dot { background: #D43F3F; }
+.s-cita-asignada    { background: #DFF0FF; color: #0A4A7A; }
+.s-cita-asignada .estado-dot { background: #1878C8; }
+.s-fab1-confirmada  { background: #EAF3DE; color: #3B6D11; }
+.s-fab1-confirmada .estado-dot { background: #639922; }
+.s-fab-confirmada   { background: #D8F5E8; color: #0A5530; }
+.s-fab-confirmada .estado-dot { background: #16A05A; }
+.s-espera-tpte      { background: #E1F5EE; color: #085041; }
+.s-espera-tpte .estado-dot { background: #0D9E88; }
+.s-lista-entrega    { background: #EEEDFE; color: #3C3489; }
+.s-lista-entrega .estado-dot { background: #534AB7; }
+.s-entregado        { background: #EDE8FF; color: #3A1A7A; }
+.s-entregado .estado-dot { background: #6B3FD4; }
+
+.actions-cell {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.act-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.12s;
+}
+.act-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+.act-btn.avanzar { background: var(--accent); color: white; border-color: var(--accent); }
+.act-btn.avanzar:hover { background: #333; }
+.act-btn.danger:hover { background: var(--red-bg); color: var(--red-text); border-color: var(--red-dot); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,25,22,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  width: 560px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title { font-size: 16px; font-weight: 600; letter-spacing: -0.2px; }
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+.modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+.form-control {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  transition: border 0.15s;
+}
+.form-control:focus { border-color: var(--accent); }
+.form-control select,
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6960' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.form-hint { font-size: 11px; color: var(--text3); }
+
+/* ── ESTADO DETAIL MODAL ── */
+.estado-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.estado-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.estado-step:hover { border-color: var(--border2); background: var(--surface2); }
+.estado-step.current { border-color: var(--accent); background: var(--accent); color: white; }
+.estado-step.done { opacity: 0.4; cursor: default; }
+.estado-step-icon { font-size: 16px; width: 24px; text-align: center; }
+.estado-step-text { flex: 1; font-size: 13px; font-weight: 500; }
+.estado-step-sub { font-size: 11px; opacity: 0.6; margin-top: 1px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+}
+.empty-state-icon { font-size: 32px; margin-bottom: 12px; }
+.empty-state h3 { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; }
+
+/* ── TOAST ── */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9999;
+}
+.toast {
+  background: var(--accent);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  animation: slideIn 0.2s ease;
+  max-width: 300px;
+}
+@keyframes slideIn {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* ── CONFIG PANEL ── */
+.config-panel {
+  display: none;
+  padding: 24px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 16px 20px;
+}
+.config-panel.visible { display: block; }
+.config-section { margin-bottom: 20px; }
+.config-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.config-info {
+  background: var(--blue-bg);
+  color: var(--blue-text);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.config-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.config-step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.config-step-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.config-step-text code {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  background: var(--surface2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text2);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── LOGIN SCREEN ── */
+.login-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: #0A0A0A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.login-screen.hidden { display: none; }
+
+.login-scaffold {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.login-scaffold svg {
+  width: 100%; height: 100%;
+}
+
+/* Concrete texture grain */
+.login-scaffold::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.login-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 75% 45%, rgba(255,107,0,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 70%, rgba(255,107,0,0.08) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 60%);
+}
+
+/* Mixer drum rotation animation */
+@keyframes drumSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes drumSpinReverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+.mixer-drum {
+  transform-origin: 700px 420px;
+  animation: drumSpin 8s linear infinite;
+}
+.mixer-spiral {
+  transform-origin: 700px 420px;
+  animation: drumSpinReverse 8s linear infinite;
+}
+@keyframes floatLight {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+.mixer-light { animation: floatLight 3s ease-in-out infinite; }
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  max-width: 95vw;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.login-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 64px;
+  background: #FF6B00;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+.login-logo-mark svg { width: 36px; height: 36px; }
+.login-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+.login-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.02em;
+}
+
+.login-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.user-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
+  font-family: inherit;
+}
+.user-btn:hover {
+  border-color: #FF6B00;
+  background: rgba(255,107,0,0.12);
+  transform: translateY(-2px);
+}
+.user-btn.selected {
+  border-color: #FF6B00;
+  background: rgba(255,107,0,0.18);
+  box-shadow: 0 0 0 3px rgba(255,107,0,0.2);
+}
+.user-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.avatar-admin    { background: rgba(255,107,0,0.25); color: #FF6B00; }
+.avatar-comercial{ background: rgba(59,130,246,0.2); color: #60A5FA; }
+.avatar-logistica{ background: rgba(34,197,94,0.2);  color: #4ADE80; }
+.user-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+}
+.user-role {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+}
+
+.login-enter-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #FF6B00;
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: all 0.2s;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.login-enter-btn.ready {
+  opacity: 1;
+  pointer-events: all;
+}
+.login-enter-btn.ready:hover {
+  background: #E55F00;
+  transform: translateY(-1px);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+/* ── USER BADGE IN TOPBAR ── */
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  transition: background 0.15s;
+}
+.user-badge:hover { background: var(--border); }
+.user-badge-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+.ub-admin     { background: rgba(255,107,0,0.15); color: #CC5500; }
+.ub-comercial { background: rgba(59,130,246,0.15); color: #1D4ED8; }
+.ub-logistica { background: rgba(34,197,94,0.15);  color: #15803D; }
+
+/* ── HISTORIAL MODAL ── */
+.historial-entry {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.historial-entry:last-child { border-bottom: none; }
+.historial-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #FF6B00;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.historial-user {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.historial-accion {
+  font-size: 12px;
+  color: var(--text2);
+}
+.historial-fecha {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* ── CONEXION STATUS ── */
+.conexion-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text3);
+  transition: all 0.3s;
+}
+.conexion-badge.conectado {
+  background: #D8F5E8;
+  color: #0A5530;
+  border-color: #16A05A;
+}
+.conexion-badge.desconectado {
+  background: #FFE5E5;
+  color: #7A1A1A;
+  border-color: #D43F3F;
+}
+.conexion-badge.conectando {
+  background: #FFF3D6;
+  color: #7A4F00;
+  border-color: #D4890A;
+}
+.conexion-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.conexion-badge.conectado .conexion-dot {
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── CHECKLIST ── */
+.checklist-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.checklist-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  padding: 4px 0;
+}
+.checklist-item input[type=checkbox] {
+  width: 15px; height: 15px;
+  accent-color: #FF6B00;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.checklist-item.done { color: var(--text3); text-decoration: line-through; }
+
+/* ── DYNAMIC PROVIDERS ── */
+.prov-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.prov-entry:last-child { border-bottom: none; }
+.prov-remove {
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text3);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.prov-remove:hover { background: var(--red-bg); color: var(--red-text); border-color: var(--red-dot); }
+.add-prov-btn {
+  font-size: 12px;
+  color: #FF6B00;
+  background: none;
+  border: 1px dashed #FF6B00;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 6px;
+  transition: background 0.12s;
+}
+.add-prov-btn:hover { background: rgba(255,107,0,0.06); }
+
+
+.export-menu-wrap {
+  position: relative;
+}
+.export-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  min-width: 240px;
+  z-index: 500;
+  overflow: hidden;
+  padding: 4px;
+}
+.export-dropdown.open { display: block; }
+.export-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 7px;
+  text-align: left;
+  font-family: inherit;
+  transition: background 0.12s;
+}
+.export-item:hover { background: var(--surface2); }
+.export-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+.export-item-title { font-size: 13px; font-weight: 500; color: var(--text); }
+.export-item-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+/* ── TABS ── */
+.tabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--text); border-bottom-color: #FF6B00; }
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  margin-left: 6px;
+  color: var(--text2);
+}
+.tab-btn.active .tab-count {
+  background: rgba(255,107,0,0.12);
+  color: #CC5500;
+  border-color: rgba(255,107,0,0.3);
+}
+
+/* ── CITAS PANEL ── */
+.citas-panel {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+.citas-panel.active { display: flex; }
+.cargas-panel { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.cargas-panel.hidden { display: none; }
+
+.citas-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.citas-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+  align-content: start;
+}
+.cita-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s;
+}
+.cita-card:hover { border-color: var(--border2); }
+.cita-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cita-cod {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+  word-break: break-all;
+  flex: 1;
+}
+.cita-fecha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.cita-fecha-badge {
+  background: #FF6B00;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.cita-hora-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.cita-dias {
+  font-size: 11px;
+  color: var(--text3);
+}
+.cita-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+.cita-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+}
+.cita-empty-icon { font-size: 32px; margin-bottom: 12px; }
+.cita-empty h3 { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
+
+/* ── MODAL AÑADIR CITA ── */
+.cita-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--surface2);
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+}
+.cita-textarea:focus { border-color: #FF6B00; background: var(--surface); }
+.cita-preview {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  display: none;
+}
+.cita-preview.visible { display: block; }
+.cita-preview strong { color: var(--text); }
+
+/* ── MODAL ASIGNAR CITA ── */
+.asignar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.asignar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.asignar-item:hover { border-color: #FF6B00; background: rgba(255,107,0,0.04); }
+.asignar-item-info { flex: 1; }
+.asignar-item-fecha { font-size: 13px; font-weight: 500; }
+.asignar-item-prov { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+
+@media print {
+  .login-screen, .sidebar, .topbar, .toolbar, .legend,
+  .toast-container, .modal-overlay, .export-menu-wrap,
+  .act-btn, .actions-cell { display: none !important; }
+  body { background: white !important; font-size: 11px; }
+  .shell { display: block !important; }
+  .main { display: block !important; }
+  .table-area { padding: 0 !important; overflow: visible !important; }
+  .cargas-table { border: 1px solid #ccc !important; font-size: 10px; }
+  .cargas-table th { background: #f0f0f0 !important; color: #333 !important; }
+  .estado-badge { border: 1px solid #ccc !important; background: #f9f9f9 !important; color: #333 !important; }
+  .prov-tag { border: 1px solid #ccc !important; background: #f9f9f9 !important; color: #333 !important; }
+  .print-header { display: block !important; }
+}
+.print-header {
+  display: none;
+  margin-bottom: 16px;
+}
+.print-header h1 { font-size: 16px; font-weight: 700; }
+.print-header p { font-size: 11px; color: #666; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .shell { grid-template-columns: 1fr; grid-template-rows: 56px auto 1fr; }
+  .sidebar { grid-row: 2; flex-direction: row; overflow-x: auto; padding: 8px; border-right: none; border-bottom: 1px solid var(--border); }
+  .sidebar-section, .sidebar-stats, .sidebar-divider { display: none; }
+  .sidebar-item { white-space: nowrap; border-radius: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── CONFIG ── -->
+<script>
+const CONFIG = {
+  SHEET_ID:   'TU_SHEET_ID_AQUI',
+  API_KEY:    'TU_API_KEY_AQUI',
+  CLIENT_ID:  'TU_CLIENT_ID_AQUI',
+  SHEET_NAME: 'Cargas',
+};
+</script>
+<!-- Google API client -->
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="dot"></span>
+      Gestión de Cargas
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="fecha-hoy"></span>
+      <div class="conexion-badge" id="conexion-badge">
+        <div class="conexion-dot"></div>
+        <span id="conexion-texto">Sin conexión</span>
+      </div>
+      <div class="user-badge" id="user-badge" onclick="cerrarSesion()">
+        <div class="user-badge-dot ub-admin" id="user-badge-dot">AD</div>
+        <span id="user-badge-name">Admin</span>
+        <span style="font-size:10px;color:var(--text3)">· Salir</span>
+      </div>
+      <button class="btn" id="btn-config" onclick="toggleConfig()" style="display:none">⚙ Configuración</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">Filtros</div>
+    <button class="sidebar-item active" data-filter="all" onclick="setFilter('all',this)">
+      Todas las cargas <span class="count" id="cnt-all">0</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Por estado</div>
+    <button class="sidebar-item" data-filter="s-posible-carga" onclick="setFilter('s-posible-carga',this)">
+      Posible carga <span class="count" id="cnt-posible-carga">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-espera-cita" onclick="setFilter('s-espera-cita',this)">
+      Esperando cita <span class="count" id="cnt-espera-cita">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-pedir-cita-extra" onclick="setFilter('s-pedir-cita-extra',this)">
+      Pedir cita extra <span class="count" id="cnt-pedir-cita-extra">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-cita-asignada" onclick="setFilter('s-cita-asignada',this)">
+      Cita asignada <span class="count" id="cnt-cita-asignada">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-fab1-confirmada" onclick="setFilter('s-fab1-confirmada',this)">
+      1 fábrica conf. <span class="count" id="cnt-fab1-confirmada">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-fab-confirmada" onclick="setFilter('s-fab-confirmada',this)">
+      Fábricas OK <span class="count" id="cnt-fab-confirmada">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-espera-tpte" onclick="setFilter('s-espera-tpte',this)">
+      Esperando tpte. <span class="count" id="cnt-espera-tpte">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-lista-entrega" onclick="setFilter('s-lista-entrega',this)">
+      Lista para entrega <span class="count" id="cnt-lista-entrega">0</span>
+    </button>
+    <button class="sidebar-item" data-filter="s-entregado" onclick="setFilter('s-entregado',this)">
+      Entregada en Leroy <span class="count" id="cnt-entregado">0</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Por proveedor</div>
+    <button class="sidebar-item" data-filter="DIKA+CASTA" onclick="setFilter('DIKA+CASTA',this)">
+      Carretillas (DIKA+CASTA)
+    </button>
+    <button class="sidebar-item" data-filter="IRBAL" onclick="setFilter('IRBAL',this)">
+      Hormigoneras (IRBAL)
+    </button>
+    <button class="sidebar-item" data-filter="API TW" onclick="setFilter('API TW',this)">
+      Almacén (API TW)
+    </button>
+
+    <div class="sidebar-stats">
+      <div class="sidebar-stat">Semana actual <strong id="stat-semana">0</strong></div>
+      <div class="sidebar-stat">Entregadas hoy <strong id="stat-hoy">0</strong></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- CONFIG PANEL -->
+    <div class="config-panel" id="config-panel">
+      <div class="config-section">
+        <h3>Conexión con Google Sheets</h3>
+        <div class="config-info">
+          Esta app lee y guarda los datos en tu Google Sheet. Introduce tu Sheet ID y API Key una sola vez. <strong>Importante:</strong> añade una segunda pestaña en tu Sheet llamada exactamente <code>Citas</code> para guardar las citas pendientes.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-group">
+            <label class="form-label">Sheet ID</label>
+            <input type="text" class="form-control" id="cfg-sheet-id" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
+          </div>
+          <div class="form-group">
+            <label class="form-label">API Key de Google (lectura)</label>
+            <input type="text" class="form-control" id="cfg-api-key" placeholder="AIzaSy...">
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="form-group">
+            <label class="form-label">Client ID de OAuth (escritura)</label>
+            <input type="text" class="form-control" id="cfg-client-id" placeholder="123456789-xxxx.apps.googleusercontent.com">
+            <span class="form-hint" style="display:block;margin-top:4px">Créalo en Google Cloud Console → Credenciales → ID de cliente OAuth → Aplicación web</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveConfig()">Guardar y conectar</button>
+        <button class="btn" id="btn-oauth" onclick="iniciarOAuth()" style="margin-left:8px;display:none">🔑 Autorizar escritura</button>
+        <button class="btn" onclick="loadDemoData()" style="margin-left:8px">Cargar datos de ejemplo</button>
+        <div id="oauth-status" style="margin-top:10px;font-size:12px;color:var(--text2)"></div>
+      </div>
+    </div>
+
+  <!-- TABS -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" id="tab-cargas" onclick="switchTab('cargas')">
+      Cargas <span class="tab-count" id="tab-cnt-cargas">0</span>
+    </button>
+    <button class="tab-btn" id="tab-citas" onclick="switchTab('citas')">
+      Citas por asignar <span class="tab-count" id="tab-cnt-citas">0</span>
+    </button>
+  </div>
+
+  <!-- CARGAS PANEL -->
+  <div class="cargas-panel" id="cargas-panel">
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <span class="toolbar-title" id="toolbar-title">Todas las cargas</span>
+      <div class="search-box">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Buscar pedido, código..." id="search-input" oninput="renderTable()">
+      </div>
+      <button class="btn btn-primary" onclick="openNuevaCarga()">+ Nueva carga</button>
+      <div class="export-menu-wrap" id="export-menu-wrap">
+        <button class="btn" onclick="toggleExportMenu()">↓ Guardar <span style="font-size:10px;opacity:0.6">▾</span></button>
+        <div class="export-dropdown" id="export-dropdown">
+          <button class="export-item" onclick="exportarCSV()">
+            <span class="export-icon">📊</span>
+            <div>
+              <div class="export-item-title">Exportar a CSV</div>
+              <div class="export-item-sub">Compatible con Excel y Google Sheets</div>
+            </div>
+          </button>
+          <button class="export-item" onclick="guardarPDF()">
+            <span class="export-icon">📄</span>
+            <div>
+              <div class="export-item-title">Guardar como PDF</div>
+              <div class="export-item-sub">Documento con todas las cargas</div>
+            </div>
+          </button>
+          <button class="export-item" onclick="imprimirTabla()">
+            <span class="export-icon">🖨</span>
+            <div>
+              <div class="export-item-title">Imprimir</div>
+              <div class="export-item-sub">Enviar a impresora</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#888780"></div> Posible carga</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D4890A"></div> Esperando cita</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D43F3F"></div> Pedir cita extra</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1878C8"></div> Cita asignada</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#639922"></div> 1 fábrica conf.</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#16A05A"></div> Fábricas OK</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0D9E88"></div> Esperando tpte.</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div> Lista para entrega</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6B3FD4"></div> Entregada</div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-area">
+      <div class="print-header" id="print-header">
+        <h1>Gestión de Cargas — Leroy Merlin</h1>
+        <p id="print-meta"></p>
+      </div>
+      <table class="cargas-table">
+        <thead>
+          <tr>
+            <th>Fecha carga</th>
+            <th>Proveedor</th>
+            <th>Pedidos</th>
+            <th>Fecha cita</th>
+            <th>Hora cita</th>
+            <th>Código TR (Leroy)</th>
+            <th>Transportista</th>
+            <th>Estado</th>
+            <th>Notas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty-state" id="empty-state" style="display:none">
+        <div class="empty-state-icon">📦</div>
+        <h3>No hay cargas que mostrar</h3>
+        <p>Cambia el filtro o añade una nueva carga.</p>
+      </div>
+    </div>
+  </div><!-- end cargas-panel -->
+
+  <!-- CITAS PANEL -->
+  <div class="citas-panel" id="citas-panel">
+    <div class="citas-toolbar">
+      <span style="font-size:15px;font-weight:600;flex:1">Citas por asignar</span>
+      <button class="btn btn-primary" onclick="openAnadirCita()">+ Añadir cita Leroy</button>
+    </div>
+    <div class="citas-grid" id="citas-grid"></div>
+  </div>
+
+  </main>
+</div>
+
+<!-- ── MODAL AÑADIR CITA ── -->
+<div class="modal-overlay" id="modal-cita">
+  <div class="modal" style="width:500px">
+    <div class="modal-header">
+      <span class="modal-title">Añadir cita de Leroy</span>
+      <button class="modal-close" onclick="closeModal('modal-cita')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group full">
+        <label class="form-label">Pega el texto de la cita tal como lo manda Leroy</label>
+        <textarea class="cita-textarea" id="cita-input" placeholder="TRTOR1-2003260200-008-F, para el día 20/03/2026 a las 02:00 h." oninput="parsearCita()"></textarea>
+        <span class="form-hint">Puedes pegar varias citas a la vez, una por línea.</span>
+      </div>
+      <div class="cita-preview" id="cita-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-cita')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarCitas()">Guardar citas</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL ASIGNAR CITA ── -->
+<div class="modal-overlay" id="modal-asignar">
+  <div class="modal" style="width:480px">
+    <div class="modal-header">
+      <span class="modal-title">Asignar cita a una carga</span>
+      <button class="modal-close" onclick="closeModal('modal-asignar')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px" id="asignar-info"></div>
+      <div class="asignar-list" id="asignar-list"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-asignar')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOGIN SCREEN ── -->
+<div class="login-screen" id="login-screen">
+  <!-- Scaffold background -->
+<div class="login-scaffold">
+    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="drumGrad" cx="40%" cy="35%" r="60%">
+          <stop offset="0%" stop-color="#3A3530"/>
+          <stop offset="100%" stop-color="#1A1610"/>
+        </radialGradient>
+        <radialGradient id="drumShine" cx="30%" cy="25%" r="50%">
+          <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2A2520"/>
+          <stop offset="100%" stop-color="#151210"/>
+        </linearGradient>
+        <linearGradient id="chute" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#333028"/>
+          <stop offset="100%" stop-color="#1A1815"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Dark industrial background -->
+      <rect width="1400" height="900" fill="#0D0B09"/>
+
+      <!-- Floor / ground shadow -->
+      <ellipse cx="700" cy="860" rx="480" ry="40" fill="#000" opacity="0.5"/>
+      <rect x="0" y="820" width="1400" height="80" fill="#0A0908"/>
+      <!-- Floor lines -->
+      <line x1="0" y1="820" x2="1400" y2="820" stroke="#2A2520" stroke-width="2"/>
+      <line x1="100" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
+      <line x1="400" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
+      <line x1="700" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
+      <line x1="1000" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
+      <line x1="1300" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
+
+      <!-- Background mixer silhouettes (faded) -->
+      <g opacity="0.08">
+        <ellipse cx="180" cy="500" rx="90" ry="110" fill="#FF6B00"/>
+        <rect x="140" y="580" width="80" height="120" fill="#FF6B00"/>
+        <rect x="100" y="560" width="160" height="20" rx="4" fill="#FF6B00"/>
+      </g>
+      <g opacity="0.06">
+        <ellipse cx="1220" cy="480" rx="80" ry="100" fill="#FF6B00"/>
+        <rect x="1185" y="555" width="70" height="110" fill="#FF6B00"/>
+      </g>
+
+      <!-- ── MAIN CONCRETE MIXER ── -->
+      <!-- Chassis / frame -->
+      <rect x="420" y="670" width="560" height="160" rx="8" fill="url(#bodyGrad)" opacity="0.95"/>
+      <!-- Wheels -->
+      <circle cx="520" cy="820" r="52" fill="#1A1815" stroke="#2A2520" stroke-width="4"/>
+      <circle cx="520" cy="820" r="36" fill="#141210" stroke="#3A3530" stroke-width="3"/>
+      <circle cx="520" cy="820" r="14" fill="#FF6B00" opacity="0.8"/>
+      <line x1="520" y1="784" x2="520" y2="856" stroke="#2A2520" stroke-width="3"/>
+      <line x1="484" y1="820" x2="556" y2="820" stroke="#2A2520" stroke-width="3"/>
+      <line x1="495" y1="795" x2="545" y2="845" stroke="#2A2520" stroke-width="2"/>
+      <line x1="545" y1="795" x2="495" y2="845" stroke="#2A2520" stroke-width="2"/>
+
+      <circle cx="880" cy="820" r="52" fill="#1A1815" stroke="#2A2520" stroke-width="4"/>
+      <circle cx="880" cy="820" r="36" fill="#141210" stroke="#3A3530" stroke-width="3"/>
+      <circle cx="880" cy="820" r="14" fill="#FF6B00" opacity="0.8"/>
+      <line x1="880" y1="784" x2="880" y2="856" stroke="#2A2520" stroke-width="3"/>
+      <line x1="844" y1="820" x2="916" y2="820" stroke="#2A2520" stroke-width="3"/>
+      <line x1="855" y1="795" x2="905" y2="845" stroke="#2A2520" stroke-width="2"/>
+      <line x1="905" y1="795" x2="855" y2="845" stroke="#2A2520" stroke-width="2"/>
+
+      <!-- Support legs -->
+      <rect x="590" y="640" width="24" height="100" rx="4" fill="#222018"/>
+      <rect x="786" y="640" width="24" height="100" rx="4" fill="#222018"/>
+
+      <!-- Support arm to drum -->
+      <polygon points="560,650 840,650 780,430 620,430" fill="#1E1C18" opacity="0.9"/>
+      <rect x="615" y="425" width="170" height="14" rx="4" fill="#2A2722"/>
+
+      <!-- ── ROTATING DRUM ── -->
+      <g class="mixer-drum">
+        <!-- Drum body -->
+        <ellipse cx="700" cy="420" rx="155" ry="185" fill="url(#drumGrad)"/>
+        <ellipse cx="700" cy="420" rx="155" ry="185" fill="url(#drumShine)"/>
+        <!-- Drum ribs -->
+        <ellipse cx="700" cy="420" rx="155" ry="185" fill="none" stroke="#2A2520" stroke-width="3" opacity="0.6"/>
+        <ellipse cx="700" cy="390" rx="140" ry="50" fill="none" stroke="#3A3530" stroke-width="2" opacity="0.5"/>
+        <ellipse cx="700" cy="450" rx="152" ry="60" fill="none" stroke="#3A3530" stroke-width="2" opacity="0.4"/>
+        <ellipse cx="700" cy="510" rx="145" ry="45" fill="none" stroke="#3A3530" stroke-width="2" opacity="0.3"/>
+        <!-- Drum top opening -->
+        <ellipse cx="700" cy="242" rx="72" ry="28" fill="#0D0B09"/>
+        <ellipse cx="700" cy="242" rx="72" ry="28" fill="none" stroke="#FF6B00" stroke-width="3" opacity="0.7"/>
+        <!-- Orange accent stripe -->
+        <path d="M558,380 Q700,350 842,380 Q700,400 558,380Z" fill="#FF6B00" opacity="0.15"/>
+        <path d="M548,460 Q700,440 852,460 Q700,480 548,460Z" fill="#FF6B00" opacity="0.10"/>
+      </g>
+
+      <!-- Spiral blades inside drum (counter-rotate) -->
+      <g class="mixer-spiral" opacity="0.4">
+        <path d="M660,260 Q720,320 680,380 Q640,440 700,500 Q760,560 720,600" fill="none" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
+        <path d="M740,260 Q680,320 720,380 Q760,440 700,500 Q640,560 680,600" fill="none" stroke="#FF6B00" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+      </g>
+
+      <!-- Drum shine overlay -->
+      <ellipse cx="660" cy="340" rx="50" ry="70" fill="white" opacity="0.04"/>
+
+      <!-- ── DISCHARGE CHUTE ── -->
+      <polygon points="840,590 920,590 980,700 900,700" fill="url(#chute)" opacity="0.9"/>
+      <line x1="840" y1="590" x2="980" y2="700" stroke="#3A3530" stroke-width="2"/>
+      <line x1="920" y1="590" x2="900" y2="700" stroke="#3A3530" stroke-width="1"/>
+
+      <!-- Concrete drip from chute -->
+      <ellipse cx="935" cy="705" rx="28" ry="8" fill="#2A2822" opacity="0.7"/>
+      <path d="M920,700 Q935,720 950,700" fill="#2A2822" opacity="0.5"/>
+
+      <!-- ── CONTROL PANEL ── -->
+      <rect x="440" y="685" width="80" height="60" rx="4" fill="#1A1815" stroke="#2A2520" stroke-width="1"/>
+      <circle cx="460" cy="705" r="7" fill="#FF6B00" opacity="0.9" filter="url(#softglow)" class="mixer-light"/>
+      <circle cx="480" cy="705" r="7" fill="#22AA55" opacity="0.7"/>
+      <circle cx="500" cy="705" r="7" fill="#CC3333" opacity="0.6"/>
+      <rect x="453" y="718" width="54" height="8" rx="2" fill="#2A2520"/>
+      <rect x="453" y="730" width="54" height="8" rx="2" fill="#2A2520"/>
+
+      <!-- ── ENGINE BLOCK ── -->
+      <rect x="860" y="685" width="100" height="55" rx="4" fill="#1E1C18" stroke="#2A2520" stroke-width="1"/>
+      <rect x="870" y="692" width="35" height="20" rx="2" fill="#2A2520"/>
+      <rect x="913" y="692" width="35" height="20" rx="2" fill="#2A2520"/>
+      <rect x="870" y="718" width="80" height="12" rx="2" fill="#2A2520"/>
+      <!-- Exhaust pipe -->
+      <rect x="948" y="640" width="14" height="60" rx="4" fill="#2A2520"/>
+      <ellipse cx="955" cy="638" rx="10" ry="5" fill="#222018"/>
+      <!-- Exhaust smoke particles -->
+      <circle cx="955" cy="615" r="8" fill="#333028" opacity="0.3"/>
+      <circle cx="960" cy="595" r="11" fill="#2A2824" opacity="0.2"/>
+      <circle cx="952" cy="575" r="14" fill="#252320" opacity="0.15"/>
+      <circle cx="958" cy="552" r="16" fill="#222018" opacity="0.10"/>
+
+      <!-- Orange glow under drum -->
+      <ellipse cx="700" cy="615" rx="120" ry="20" fill="#FF6B00" opacity="0.06" filter="url(#glow)"/>
+
+      <!-- Ground concrete splats -->
+      <ellipse cx="940" cy="725" rx="45" ry="12" fill="#2A2822" opacity="0.4"/>
+      <ellipse cx="960" cy="730" rx="20" ry="6" fill="#2A2822" opacity="0.3"/>
+
+      <!-- Distant warehouse lines -->
+      <line x1="0" y1="300" x2="350" y2="300" stroke="#1A1815" stroke-width="1" opacity="0.6"/>
+      <line x1="0" y1="400" x2="280" y2="400" stroke="#1A1815" stroke-width="1" opacity="0.4"/>
+      <line x1="1050" y1="300" x2="1400" y2="300" stroke="#1A1815" stroke-width="1" opacity="0.6"/>
+      <line x1="1120" y1="400" x2="1400" y2="400" stroke="#1A1815" stroke-width="1" opacity="0.4"/>
+      <rect x="50" y="300" width="2" height="520" fill="#1A1815" opacity="0.4"/>
+      <rect x="200" y="300" width="2" height="520" fill="#1A1815" opacity="0.3"/>
+      <rect x="1150" y="300" width="2" height="520" fill="#1A1815" opacity="0.4"/>
+      <rect x="1300" y="300" width="2" height="520" fill="#1A1815" opacity="0.3"/>
+
+      <!-- Orange accent light source top right -->
+      <ellipse cx="1300" cy="100" rx="200" ry="150" fill="#FF6B00" opacity="0.04"/>
+      <ellipse cx="1350" cy="80" rx="100" ry="80" fill="#FF6B00" opacity="0.06"/>
+    </svg>
+  </div>
+  <div class="login-gradient"></div>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Mixer drum -->
+          <ellipse cx="18" cy="17" rx="10" ry="12" fill="white" opacity="0.9"/>
+          <!-- Opening top -->
+          <ellipse cx="18" cy="6" rx="5" ry="2" fill="white" opacity="0.6"/>
+          <!-- Spiral blade -->
+          <path d="M14,9 Q19,13 15,17 Q11,21 16,25" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Chute -->
+          <path d="M26,22 L32,28 L29,29 L23,23Z" fill="white" opacity="0.7"/>
+          <!-- Chassis bar -->
+          <rect x="8" y="28" width="20" height="3" rx="1.5" fill="white" opacity="0.5"/>
+          <!-- Wheel -->
+          <circle cx="12" cy="31" r="2.5" fill="white" opacity="0.6"/>
+          <circle cx="24" cy="31" r="2.5" fill="white" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="login-title">Altrad Plettac Ibérica</div>
+      <div class="login-subtitle">GESTIÓN DE CARGAS · LEROY MERLIN</div>
+    </div>
+
+    <span class="login-label">Selecciona tu usuario para acceder</span>
+
+    <div class="user-grid">
+      <button class="user-btn" data-user="Admin" data-role="admin" onclick="selectUser(this)">
+        <div class="user-avatar avatar-admin">AD</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Acceso total</div>
+        </div>
+      </button>
+      <button class="user-btn" data-user="Comercial" data-role="comercial" onclick="selectUser(this)">
+        <div class="user-avatar avatar-comercial">CO</div>
+        <div>
+          <div class="user-name">Comercial</div>
+          <div class="user-role">Gestión cargas</div>
+        </div>
+      </button>
+      <button class="user-btn" data-user="Logística" data-role="logistica" onclick="selectUser(this)">
+        <div class="user-avatar avatar-logistica">LG</div>
+        <div>
+          <div class="user-name">Logística</div>
+          <div class="user-role">Gestión cargas</div>
+        </div>
+      </button>
+    </div>
+
+    <button class="login-enter-btn" id="login-enter-btn" onclick="entrarApp()">Entrar</button>
+
+    <div class="login-footer">ALTRAD GROUP · SISTEMA INTERNO · v2.0</div>
+  </div>
+</div>
+
+<!-- ── HISTORIAL MODAL ── -->
+<div class="modal-overlay" id="modal-historial">
+  <div class="modal" style="width:460px">
+    <div class="modal-header">
+      <span class="modal-title">Historial de cambios</span>
+      <button class="modal-close" onclick="closeModal('modal-historial')">×</button>
+    </div>
+    <div class="modal-body" id="historial-body" style="max-height:420px;overflow-y:auto"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-historial')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="modal-nueva">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-nueva-title">Nueva carga</span>
+      <button class="modal-close" onclick="closeModal('modal-nueva')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fecha de carga *</label>
+          <input type="date" class="form-control" id="f-fecha-carga">
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <label class="form-label">Proveedores y pedidos *</label>
+        <div id="f-proveedores-list" style="margin-bottom:6px"></div>
+        <button type="button" class="add-prov-btn" onclick="addProveedorRow()">+ Añadir proveedor</button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fecha de cita (Leroy)</label>
+          <input type="date" class="form-control" id="f-fecha-cita">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hora de cita</label>
+          <select class="form-control" id="f-hora-cita">
+            <option value="">— Hora —</option>
+            <option>00:00</option><option>01:00</option><option>02:00</option>
+            <option>03:00</option><option>04:00</option><option>23:00</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <label class="form-label">Código TR completo (de Leroy)</label>
+        <input type="text" class="form-control" id="f-cod" placeholder="ej: TRTOR1-0303260200-011-F" style="font-family:'DM Mono',monospace;font-size:12px">
+        <span class="form-hint">Pega aquí el código exacto que te manda Leroy Merlin.</span>
+      </div>
+
+      <div class="form-group full">
+        <label class="form-label">Transportista *</label>
+        <select class="form-control" id="f-transportista">
+          <option value="">— Seleccionar —</option>
+          <option value="THC">THC — carga en fábrica y entrega en Leroy</option>
+          <option value="TW">TW — sale desde almacén API</option>
+        </select>
+      </div>
+
+      <div class="form-group full">
+        <label class="form-label">Notas</label>
+        <input type="text" class="form-control" id="f-notas" placeholder="Observaciones opcionales...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-nueva')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarCarga()">Guardar carga</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL AVANZAR ESTADO ── -->
+<div class="modal-overlay" id="modal-estado">
+  <div class="modal" style="width:420px">
+    <div class="modal-header">
+      <span class="modal-title">Checklist de confirmaciones</span>
+      <button class="modal-close" onclick="closeModal('modal-estado')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px" id="modal-estado-info"></div>
+      <div class="estado-steps" id="estado-steps"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-estado')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// USER SYSTEM
+// ─────────────────────────────────────────────
+let currentUser = { name: '', role: '' };
+
+function setConexion(estado, texto) {
+  const badge = document.getElementById('conexion-badge');
+  const txt   = document.getElementById('conexion-texto');
+  badge.className = 'conexion-badge ' + estado;
+  txt.textContent = texto;
+}
+
+function selectUser(btn) {
+  document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const enterBtn = document.getElementById('login-enter-btn');
+  enterBtn.classList.add('ready');
+}
+
+async function entrarApp() {
+  const selected = document.querySelector('.user-btn.selected');
+  if (!selected) return;
+  currentUser = {
+    name: selected.dataset.user,
+    role: selected.dataset.role,
+  };
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('user-badge-name').textContent = currentUser.name;
+  const dot = document.getElementById('user-badge-dot');
+  dot.className = 'user-badge-dot';
+  const initials = { 'Admin':'AD','Comercial':'CO','Logística':'LG' };
+  const cls = { 'admin':'ub-admin','comercial':'ub-comercial','logistica':'ub-logistica' };
+  dot.classList.add(cls[currentUser.role] || 'ub-admin');
+  dot.textContent = initials[currentUser.name] || currentUser.name.slice(0,2).toUpperCase();
+  if (currentUser.role === 'admin') {
+    document.getElementById('btn-config').style.display = '';
+  }
+
+  // Auto-connect to Sheets for all users
+  const { SHEET_ID, API_KEY } = getConfig();
+  if (SHEET_ID && SHEET_ID !== 'TU_SHEET_ID_AQUI' && API_KEY && API_KEY !== 'TU_API_KEY_AQUI') {
+    setConexion('conectando', 'Conectando...');
+    await loadFromSheets();
+    await loadCitasFromSheets();
+  } else {
+    setConexion('desconectado', 'Sin base de datos');
+    loadFromStorage();
+    loadCitasFromStorage();
+    renderTable();
+    renderCitas();
+    updateCounts();
+    updateTabCounts();
+    if (currentUser.role === 'admin') {
+      toast('Admin: configura Sheet ID y API Key para conectar la base de datos.');
+    } else {
+      toast('Base de datos no configurada. Contacta con el administrador.');
+    }
+  }
+}
+
+function cerrarSesion() {
+  if (!confirm('¿Cerrar sesión y volver a la pantalla de inicio?')) return;
+  currentUser = { name:'', role:'' };
+  document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('login-enter-btn').classList.remove('ready');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('btn-config').style.display = 'none';
+}
+
+// ─────────────────────────────────────────────
+// DATA STORE
+// ─────────────────────────────────────────────
+let cargas = [];
+let currentFilter = 'all';
+let editingId = null;
+
+const ESTADOS = [
+  { key: 's-posible-carga',    label: 'Posible carga',           sub: 'Carga identificada, pendiente de confirmar todo' },
+  { key: 's-espera-cita',      label: 'Esperando cita',          sub: 'Leroy aún no ha enviado la cita fija' },
+  { key: 's-pedir-cita-extra', label: 'Pedir cita extra',        sub: 'No hay cita fija disponible — hay que solicitarla' },
+  { key: 's-cita-asignada',    label: 'Cita asignada',           sub: 'Cita de Leroy confirmada y asignada a esta carga' },
+  { key: 's-fab1-confirmada',  label: 'Fábrica parcial',         sub: '1 fábrica confirmada, esperando la otra' },
+  { key: 's-fab-confirmada',   label: 'Fábricas confirmadas',    sub: 'Todas las fábricas han confirmado la carga' },
+  { key: 's-espera-tpte',      label: 'Esperando transporte',    sub: 'Fábricas OK — pendiente confirmar transportista' },
+  { key: 's-lista-entrega',    label: 'Lista para entrega',      sub: 'Todo confirmado — lista para entregar en Leroy' },
+  { key: 's-entregado',        label: 'Entregada en Leroy',      sub: 'Carga completada y entregada' },
+];
+
+// Map old states to new ones
+const ESTADO_MIGRATION = {
+  's-espera-extra':    's-pedir-cita-extra',
+  's-tpte-confirmado': 's-espera-tpte',
+  's-fab-confirmada':  's-fab-confirmada',
+};
+function migrateEstado(e) {
+  if (!e) return 's-posible-carga';
+  return ESTADO_MIGRATION[e] || e;
+}
+const ESTADO_LABELS = {};
+ESTADOS.forEach(e => ESTADO_LABELS[e.key] = e.label);
+
+const PROV_CLASS = {
+  'DIKA+CASTA': 'prov-dika',
+  'IRBAL':      'prov-irbal',
+  'API TW':     'prov-api',
+};
+const PROV_SHORT = {
+  'DIKA+CASTA': 'Carretillas',
+  'IRBAL':      'Hormigoneras',
+  'API TW':     'API TW',
+};
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('fecha-hoy').textContent = new Date().toLocaleDateString('es-ES', {
+    weekday:'long', day:'numeric', month:'long', year:'numeric'
+  });
+  // App loads after login — no auto-load here
+});
+
+// ─────────────────────────────────────────────
+// LOCAL STORAGE (fallback cuando no hay Sheets)
+// ─────────────────────────────────────────────
+function loadFromStorage() {
+  const saved = localStorage.getItem('cargas_data');
+  if (saved) {
+    cargas = JSON.parse(saved);
+  } else {
+    loadDemoData();
+  }
+}
+
+function saveToStorage() {
+  localStorage.setItem('cargas_data', JSON.stringify(cargas));
+}
+
+function loadDemoData() {
+  cargas = [
+    { id: uid(), fechaCarga:'2026-03-02', proveedor:'API TW', proveedores:[{prov:'API',pedido:''}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'', fechaCita:'2026-03-03', horaCita:'02:00', cod:'TRTOR1-0303260200-011-F', estado:'s-entregado', notas:'', transportista:'TW', checklist:{entregado:true}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-03', proveedor:'DIKA+CASTA', proveedores:[{prov:'DIKA',pedido:'2600873'},{prov:'CASTA',pedido:'2600874'}], pedidoDika:'2600873', pedidoCasta:'2600874', pedidoIrbal:'', fechaCita:'2026-03-03', horaCita:'23:00', cod:'TRTOR1-0303262300-088-F', estado:'s-entregado', notas:'', transportista:'THC', checklist:{fab_DIKA:true,fab_CASTA:true,tpte:true,entregado:true}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-05', proveedor:'IRBAL', proveedores:[{prov:'IRBAL',pedido:'2600903'}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'2600903', fechaCita:'2026-03-06', horaCita:'00:00', cod:'TRTOR1-0603260000-104-E', estado:'s-entregado', notas:'', transportista:'THC', checklist:{fab_IRBAL:true,tpte:true,entregado:true}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-13', proveedor:'DIKA+CASTA', proveedores:[{prov:'DIKA',pedido:'2600937'},{prov:'CASTA',pedido:'2600938'}], pedidoDika:'2600937', pedidoCasta:'2600938', pedidoIrbal:'', fechaCita:'2026-03-16', horaCita:'01:00', cod:'TRTOR1-1603260100-007-F', estado:'s-lista-entrega', notas:'', transportista:'THC', checklist:{fab_DIKA:true,fab_CASTA:true,tpte:true}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-16', proveedor:'API TW', proveedores:[{prov:'API',pedido:''}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'', fechaCita:'2026-03-17', horaCita:'02:00', cod:'TRTOR1-1703260200-011-F', estado:'s-espera-tpte', notas:'', transportista:'TW', checklist:{}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-17', proveedor:'DIKA+CASTA', proveedores:[{prov:'DIKA',pedido:'2600948'},{prov:'CASTA',pedido:'2600947'}], pedidoDika:'2600948', pedidoCasta:'2600947', pedidoIrbal:'', fechaCita:'2026-03-18', horaCita:'02:00', cod:'TRTOR1-1803260200-010-F', estado:'s-fab1-confirmada', notas:'', transportista:'THC', checklist:{fab_DIKA:true}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-18', proveedor:'IRBAL', proveedores:[{prov:'IRBAL',pedido:'2600975'}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'2600975', fechaCita:'2026-03-19', horaCita:'04:00', cod:'TRTOR1-1903260400-134-E', estado:'s-cita-asignada', notas:'', transportista:'THC', checklist:{}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-19', proveedor:'DIKA+CASTA', proveedores:[{prov:'DIKA',pedido:'2600997'},{prov:'CASTA',pedido:'2600978'}], pedidoDika:'2600997', pedidoCasta:'2600978', pedidoIrbal:'', fechaCita:'', horaCita:'', cod:'', estado:'s-pedir-cita-extra', notas:'Leroy no mandó cita esta semana', transportista:'THC', checklist:{}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-20', proveedor:'API TW', proveedores:[{prov:'API',pedido:''}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'', fechaCita:'', horaCita:'', cod:'', estado:'s-espera-cita', notas:'', transportista:'TW', checklist:{}, historial:[] },
+    { id: uid(), fechaCarga:'2026-03-24', proveedor:'IRBAL', proveedores:[{prov:'IRBAL',pedido:''}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'', fechaCita:'', horaCita:'', cod:'', estado:'s-posible-carga', notas:'', transportista:'THC', checklist:{}, historial:[] },
+  ];
+  saveToStorage();
+  renderTable();
+  updateCounts();
+  toast('Datos de ejemplo cargados');
+}
+
+// ─────────────────────────────────────────────
+// GOOGLE SHEETS API
+// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// GOOGLE SHEETS — OAUTH + API KEY
+// ─────────────────────────────────────────────
+let oauthToken = localStorage.getItem('oauth_token') || null;
+
+function getConfig() {
+  return {
+    SHEET_ID:   localStorage.getItem('cfg_sheet_id')  || CONFIG.SHEET_ID,
+    API_KEY:    localStorage.getItem('cfg_api_key')   || CONFIG.API_KEY,
+    CLIENT_ID:  localStorage.getItem('cfg_client_id') || CONFIG.CLIENT_ID,
+    SHEET_NAME: CONFIG.SHEET_NAME,
+  };
+}
+
+function saveConfig() {
+  const sid = document.getElementById('cfg-sheet-id').value.trim();
+  const key = document.getElementById('cfg-api-key').value.trim();
+  const cid = document.getElementById('cfg-client-id') ? document.getElementById('cfg-client-id').value.trim() : '';
+  if (!sid || !key) { toast('Sheet ID y API Key son obligatorios'); return; }
+  localStorage.setItem('cfg_sheet_id', sid);
+  localStorage.setItem('cfg_api_key',  key);
+  if (cid) {
+    localStorage.setItem('cfg_client_id', cid);
+    const btnOAuth = document.getElementById('btn-oauth');
+    if (btnOAuth) btnOAuth.style.display = '';
+  }
+  toast('Configuración guardada. Conectando...');
+  loadFromSheets();
+  toggleConfig();
+}
+
+function iniciarOAuth() {
+  const { CLIENT_ID } = getConfig();
+  if (!CLIENT_ID || CLIENT_ID === 'TU_CLIENT_ID_AQUI') {
+    toast('Introduce primero el Client ID en configuración');
+    return;
+  }
+  try {
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      callback: (resp) => {
+        if (resp.error) {
+          toast('Error de autorización: ' + resp.error);
+          return;
+        }
+        oauthToken = resp.access_token;
+        localStorage.setItem('oauth_token', oauthToken);
+        const st = document.getElementById('oauth-status');
+        if (st) st.textContent = '✅ Autorización completada. Escritura en Sheets activa.';
+        setConexion('conectado', 'Conectado · Escritura activa');
+        toast('Autorización completada — ya puedes guardar en Sheets');
+      },
+    });
+    client.requestAccessToken();
+  } catch(e) {
+    toast('Error iniciando OAuth. Comprueba el Client ID.');
+  }
+}
+
+async function loadFromSheets() {
+  const { SHEET_ID, API_KEY, SHEET_NAME } = getConfig();
+  if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY || API_KEY === 'TU_API_KEY_AQUI') {
+    setConexion('desconectado', 'Sin base de datos');
+    loadFromStorage(); renderTable(); updateCounts();
+    return;
+  }
+  try {
+    setConexion('conectando', 'Conectando...');
+    const url  = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    if (!data.values || data.values.length < 2) {
+      setConexion('conectado', 'Conectado · Sin datos');
+      renderTable(); updateCounts(); return;
+    }
+    const [, ...rows] = data.values;
+    cargas = rows.map(r => ({
+      id:           r[0]  || uid(),
+      fechaCarga:   r[1]  || '',
+      proveedor:    r[2]  || '',
+      pedidoDika:   r[3]  || '',
+      pedidoCasta:  r[4]  || '',
+      pedidoIrbal:  r[5]  || '',
+      fechaCita:    r[6]  || '',
+      horaCita:     r[7]  || '',
+      cod:          r[8]  || '',
+      estado:       migrateEstado(r[9]),
+      notas:        r[10] || '',
+      transportista:r[11] || '',
+      proveedores:  r[14] ? (() => { try { return JSON.parse(r[14]); } catch(e) { return []; } })() : [],
+      checklist:    r[15] ? (() => { try { return JSON.parse(r[15]); } catch(e) { return {}; } })() : {},
+      historial:    r[13] ? (() => { try { return JSON.parse(r[13]); } catch(e) { return []; } })() : [],
+    }));
+    saveToStorage();
+    renderTable();
+    updateCounts();
+    updateTabCounts();
+    const tok = oauthToken;
+    setConexion('conectado', tok ? 'Conectado · Escritura activa' : 'Conectado · Solo lectura');
+    toast(tok ? 'Base de datos sincronizada' : 'Datos cargados — ve a ⚙ → Autorizar escritura para guardar cambios');
+  } catch(e) {
+    setConexion('desconectado', 'Error de conexión');
+    loadFromStorage(); renderTable(); updateCounts();
+    toast('No se pudo conectar. Comprueba Sheet ID y API Key.');
+  }
+}
+
+async function saveToSheets() {
+  const { SHEET_ID, SHEET_NAME } = getConfig();
+  saveToStorage(); // always save locally first
+
+  if (!oauthToken) {
+    setConexion('desconectado', 'Sin autorización de escritura');
+    toast('Cambios guardados localmente. Ve a ⚙ → Autorizar escritura para sincronizar con Sheets.');
+    return;
+  }
+  if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI') return;
+
+  const values = [
+    ['ID','Fecha Carga','Proveedor','Pedido DIKA','Pedido CASTA','Pedido IRBAL',
+     'Fecha Cita','Hora Cita','Código TR','Estado','Notas','Transportista',
+     'Creado por','Historial','Proveedores','Checklist'],
+    ...cargas.map(c => [
+      c.id, c.fechaCarga, c.proveedor,
+      c.pedidoDika||'', c.pedidoCasta||'', c.pedidoIrbal||'',
+      c.fechaCita||'', c.horaCita||'', c.cod||'',
+      c.estado, c.notas||'', c.transportista||'',
+      (c.historial&&c.historial.length ? c.historial[c.historial.length-1].usuario : ''),
+      JSON.stringify(c.historial   || []),
+      JSON.stringify(c.proveedores || []),
+      JSON.stringify(c.checklist   || {}),
+    ])
+  ];
+
+  try {
+    setConexion('conectando', 'Guardando...');
+    const res  = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?valueInputOption=RAW`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${oauthToken}` },
+        body: JSON.stringify({ range: SHEET_NAME, majorDimension: 'ROWS', values }),
+      }
+    );
+    const data = await res.json();
+    if (data.error) {
+      if (data.error.code === 401) {
+        oauthToken = null;
+        localStorage.removeItem('oauth_token');
+        setConexion('desconectado', 'Sesión expirada');
+        toast('Sesión de Google expirada. Ve a ⚙ → Autorizar escritura para renovarla.');
+        return;
+      }
+      throw new Error(data.error.message);
+    }
+    setConexion('conectado', 'Conectado · Escritura activa');
+  } catch(e) {
+    setConexion('desconectado', 'Error al guardar');
+    toast('Error al guardar en Sheets. Cambios guardados localmente.');
+  }
+}
+
+
+
+// ─────────────────────────────────────────────
+// RENDER TABLE
+// ─────────────────────────────────────────────
+function renderTable() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  let data = cargas.filter(c => matchesProvFilter(c, currentFilter)).filter(c => {
+    if (!query) return true;
+    return (c.pedidoDika+c.pedidoCasta+c.pedidoIrbal+c.cod+c.notas+c.proveedor).toLowerCase().includes(query);
+  });
+
+  // Sort by fecha carga desc
+  data.sort((a,b) => toSortable(b.fechaCarga).localeCompare(toSortable(a.fechaCarga)));
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  if (data.length === 0) {
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+  document.getElementById('empty-state').style.display = 'none';
+
+  data.forEach(c => {
+    const tr = document.createElement('tr');
+
+    const pedidos = proveedoresDisplay((c.proveedores && c.proveedores.length) ? c.proveedores : legacyProveedores(c));
+    const fechaCargaFmt = c.fechaCarga ? fmtDate(c.fechaCarga) : '—';
+    const fechaCitaFmt  = c.fechaCita  ? fmtDate(c.fechaCita)  : '—';
+    const estadoKey  = ESTADOS.find(e => e.key === c.estado) ? c.estado : 's-posible-carga';
+    const estadoInfo = ESTADOS.find(e => e.key === estadoKey) || ESTADOS[0];
+
+    tr.innerHTML = `
+      <td><span class="fecha-badge">${fechaCargaFmt}</span></td>
+      <td>
+        <span class="prov-tag ${PROV_CLASS[c.proveedor]||'prov-api'}">${proveedoresShort((c.proveedores&&c.proveedores.length)?c.proveedores:legacyProveedores(c))||PROV_SHORT[c.proveedor]||c.proveedor}</span>
+      </td>
+      <td><div class="pedidos-cell">${pedidos}</div></td>
+      <td><span class="cita-cell">${fechaCitaFmt}</span></td>
+      <td><span class="cita-cell">${c.horaCita||'—'}</span></td>
+      <td><span class="cod-cell" title="${c.cod||''}">${c.cod||'—'}</span></td>
+      <td>${c.transportista ? `<span class="tpte-tag tpte-${c.transportista.toLowerCase()}">${c.transportista}</span>` : '<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+      <td>
+        <span class="estado-badge ${estadoKey}">
+          <span class="estado-dot"></span>
+          ${estadoInfo.label}
+        </span>
+      </td>
+      <td style="font-size:12px;color:var(--text2);max-width:140px">${c.notas||''}</td>
+      <td>
+        <div class="actions-cell">
+          <button class="act-btn avanzar" onclick="openChecklist('${c.id}')">Checklist</button>
+          <button class="act-btn" onclick="editarCarga('${c.id}')">Editar</button>
+          <button class="act-btn" onclick="openHistorial('${c.id}')">Historial</button>
+          ${currentUser.role === 'admin' ? `<button class="act-btn danger" onclick="eliminarCarga('${c.id}')">✕</button>` : ''}
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─────────────────────────────────────────────
+// FILTERS
+// ─────────────────────────────────────────────
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const titles = {
+    'all': 'Todas las cargas',
+    's-posible-carga':    'Posible carga',
+    's-espera-cita':      'Esperando cita',
+    's-pedir-cita-extra': 'Pedir cita extra',
+    's-cita-asignada':    'Cita asignada',
+    's-fab1-confirmada':  '1 fábrica confirmada',
+    's-fab-confirmada':   'Fábricas confirmadas',
+    's-espera-tpte':      'Esperando transporte',
+    's-lista-entrega':    'Lista para entrega',
+    's-entregado':        'Entregada en Leroy',
+    'DIKA+CASTA': 'Carretillas (DIKA + CASTA)',
+    'IRBAL': 'Hormigoneras (IRBAL)',
+    'API TW': 'Almacén API TW',
+  };
+  document.getElementById('toolbar-title').textContent = titles[f] || f;
+  renderTable();
+}
+
+function updateCounts() {
+  document.getElementById('cnt-all').textContent = cargas.length;
+  ['posible-carga','espera-cita','pedir-cita-extra','cita-asignada','fab1-confirmada','fab-confirmada','espera-tpte','lista-entrega','entregado'].forEach(s => {
+    const el = document.getElementById('cnt-' + s);
+    if (el) el.textContent = cargas.filter(c => c.estado === 's-' + s).length;
+  });
+  const hoySort = new Date().toISOString().slice(0,10);
+  const semanaStart = getMonday(new Date()).toISOString().slice(0,10);
+  document.getElementById('stat-hoy').textContent = cargas.filter(c => toSortable(c.fechaCita) === hoySort && c.estado === 's-entregado').length;
+  document.getElementById('stat-semana').textContent = cargas.filter(c => toSortable(c.fechaCarga) >= semanaStart).length;
+}
+
+function getMonday(d) {
+  const day = d.getDay(), diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(d.setDate(diff));
+}
+
+
+// ─────────────────────────────────────────────
+// DYNAMIC PROVIDERS
+// ─────────────────────────────────────────────
+const PROV_OPTIONS = [
+  { value: 'DIKA',  label: 'DIKALOFER',     placeholder: 'ej: 2600873' },
+  { value: 'CASTA', label: 'CASTANHEIRAS',  placeholder: 'ej: 2600874' },
+  { value: 'IRBAL', label: 'IRBAL',         placeholder: 'ej: 2600903' },
+  { value: 'API',   label: 'Almacén API TW',placeholder: '—' },
+];
+
+function addProveedorRow(provVal='', pedidoVal='') {
+  const list = document.getElementById('f-proveedores-list');
+  const opts = PROV_OPTIONS.map(p =>
+    `<option value="${p.value}" ${p.value===provVal?'selected':''}>${p.label}</option>`
+  ).join('');
+  const div = document.createElement('div');
+  div.className = 'prov-entry';
+  div.innerHTML = `
+    <select class="form-control" style="flex:1" onchange="updateProvPlaceholder(this)">
+      <option value="">— Proveedor —</option>${opts}
+    </select>
+    <input type="text" class="form-control" style="flex:1" placeholder="${getPedidoPlaceholder(provVal)}" value="${pedidoVal}">
+    <button type="button" class="prov-remove" onclick="this.parentElement.remove()" title="Quitar">×</button>
+  `;
+  list.appendChild(div);
+}
+
+function getPedidoPlaceholder(val) {
+  const p = PROV_OPTIONS.find(o => o.value === val);
+  return p ? p.placeholder : 'Nº pedido';
+}
+function updateProvPlaceholder(sel) {
+  sel.nextElementSibling.placeholder = getPedidoPlaceholder(sel.value);
+}
+function getProveedoresFromForm() {
+  const entries = [];
+  document.querySelectorAll('#f-proveedores-list .prov-entry').forEach(div => {
+    const prov   = div.querySelector('select').value;
+    const pedido = div.querySelector('input').value.trim();
+    if (prov) entries.push({ prov, pedido });
+  });
+  return entries;
+}
+function proveedoresDisplay(proveedores) {
+  if (!proveedores || !proveedores.length) return '—';
+  return proveedores.map(p => p.pedido ? `${p.prov}: ${p.pedido}` : p.prov).join('<br>');
+}
+function proveedoresShort(proveedores) {
+  if (!proveedores || !proveedores.length) return '';
+  return [...new Set(proveedores.map(p => p.prov))].join('+');
+}
+function legacyProveedores(c) {
+  const out = [];
+  if (c.proveedor === 'DIKA+CASTA') {
+    out.push({ prov:'DIKA',  pedido: c.pedidoDika  || '' });
+    out.push({ prov:'CASTA', pedido: c.pedidoCasta || '' }); // always both, even without pedido
+  } else if (c.proveedor === 'IRBAL') {
+    out.push({ prov:'IRBAL', pedido: c.pedidoIrbal || '' });
+  } else {
+    out.push({ prov:'API', pedido: '' });
+  }
+  return out;
+}
+
+// ─────────────────────────────────────────────
+// CHECKLIST LOGIC
+// ─────────────────────────────────────────────
+function calcEstadoFromChecklist(carga) {
+  const provs  = (carga.proveedores && carga.proveedores.length) ? carga.proveedores : legacyProveedores(carga);
+  const checks = carga.checklist || {};
+  const fabProvs = provs.filter(p => p.prov !== 'API');
+
+  // Walk down from highest to lowest state
+  if (checks['entregado'])  return 's-entregado';
+  if (checks['tpte'])       return 's-lista-entrega';
+
+  if (fabProvs.length > 0) {
+    const conf = fabProvs.filter(p => checks['fab_'+p.prov]);
+    if (conf.length === fabProvs.length) return 's-espera-tpte';
+    if (conf.length > 0)                 return 's-fab1-confirmada';
+    // All fabs unchecked — revert to cita state if cita exists, else posible
+    if (carga.cod && carga.cod !== '') return 's-cita-asignada';
+    return 's-posible-carga';
+  }
+
+  // API TW — no fabs to confirm
+  if (checks['tpte'])      return 's-lista-entrega';
+  if (carga.cod && carga.cod !== '') return 's-cita-asignada';
+  return 's-posible-carga';
+}
+
+function buildChecklist(carga) {
+  const provs  = (carga.proveedores && carga.proveedores.length) ? carga.proveedores : legacyProveedores(carga);
+  const checks = carga.checklist || {};
+  const fabProvs = provs.filter(p => p.prov !== 'API');
+  const items = [];
+  fabProvs.forEach(p => {
+    const key = 'fab_' + p.prov;
+    const label = p.prov === 'DIKA' ? 'DIKALOFER confirmada' : p.prov === 'CASTA' ? 'CASTANHEIRAS confirmada' : 'IRBAL confirmada';
+    items.push({ key, label, done: !!checks[key] });
+  });
+  items.push({ key: 'tpte', label: 'Transporte confirmado', done: !!checks['tpte'] });
+  items.push({ key: 'entregado', label: 'Entregada en Leroy', done: !!checks['entregado'] });
+  return items;
+}
+
+function openChecklist(id) {
+  const c = cargas.find(x => x.id === id);
+  if (!c) return;
+  const items = buildChecklist(c);
+  const steps = document.getElementById('estado-steps');
+  const info  = document.getElementById('modal-estado-info');
+  info.textContent = `Checklist · ${fmtDate(c.fechaCarga)} · ${proveedoresShort(c.proveedores||legacyProveedores(c))||c.proveedor}`;
+  steps.innerHTML = '';
+
+  // Estado badge at top
+  const estadoInfo = ESTADOS.find(e => e.key === c.estado) || ESTADOS[0];
+  const badgeDiv = document.createElement('div');
+  badgeDiv.style.cssText = 'margin-bottom:10px;display:flex;align-items:center;gap:8px';
+  badgeDiv.innerHTML = `<span style="font-size:11px;color:var(--text3)">Estado actual:</span><span class="estado-badge ${c.estado}"><span class="estado-dot"></span>${estadoInfo.label}</span>`;
+  steps.appendChild(badgeDiv);
+
+  // Checklist items
+  const clDiv = document.createElement('div');
+  clDiv.className = 'checklist-wrap';
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'checklist-title';
+  titleDiv.textContent = 'Confirmaciones';
+  clDiv.appendChild(titleDiv);
+
+  items.forEach(item => {
+    const row = document.createElement('label');
+    row.className = 'checklist-item' + (item.done ? ' done' : '');
+    row.innerHTML = `<input type="checkbox" ${item.done ? 'checked' : ''}> ${item.label}`;
+    row.querySelector('input').addEventListener('change', function() {
+      const carga = cargas.find(x => x.id === id);
+      if (!carga) return;
+      if (!carga.checklist) carga.checklist = {};
+      carga.checklist[item.key] = this.checked;
+      row.className = 'checklist-item' + (this.checked ? ' done' : '');
+      // Recalculate estado
+      const nuevoEstado = calcEstadoFromChecklist(carga);
+      const ahora = new Date().toLocaleString('es-ES');
+      if (nuevoEstado !== carga.estado) {
+        const estadoViejo = ESTADO_LABELS[carga.estado] || carga.estado;
+        carga.estado = nuevoEstado;
+        if (!carga.historial) carga.historial = [];
+        carga.historial.unshift({
+          usuario: currentUser.name,
+          accion: `Checklist: "${item.label}" ${this.checked?'marcado':'desmarcado'} → Estado: "${ESTADO_LABELS[nuevoEstado]}"`,
+          fecha: ahora
+        });
+        // Update badge
+        const nb = ESTADOS.find(e => e.key === nuevoEstado) || ESTADOS[0];
+        badgeDiv.innerHTML = `<span style="font-size:11px;color:var(--text3)">Estado actual:</span><span class="estado-badge ${nuevoEstado}"><span class="estado-dot"></span>${nb.label}</span>`;
+      } else {
+        if (!carga.historial) carga.historial = [];
+        carga.historial.unshift({
+          usuario: currentUser.name,
+          accion: `Checklist: "${item.label}" ${this.checked?'marcado':'desmarcado'}`,
+          fecha: ahora
+        });
+      }
+      saveToSheets();
+      renderTable();
+      updateCounts();
+    });
+    clDiv.appendChild(row);
+  });
+  steps.appendChild(clDiv);
+  document.getElementById('modal-estado').classList.add('open');
+}
+
+// ─────────────────────────────────────────────
+// NUEVA / EDITAR CARGA
+// ─────────────────────────────────────────────
+function openNuevaCarga() {
+  editingId = null;
+  document.getElementById('modal-nueva-title').textContent = 'Nueva carga';
+  clearForm();
+  addProveedorRow();
+  document.getElementById('modal-nueva').classList.add('open');
+}
+
+function editarCarga(id) {
+  editingId = id;
+  const c = cargas.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('modal-nueva-title').textContent = 'Editar carga';
+  document.getElementById('f-fecha-carga').value   = c.fechaCarga;
+  document.getElementById('f-fecha-cita').value    = c.fechaCita;
+  document.getElementById('f-hora-cita').value     = c.horaCita;
+  document.getElementById('f-cod').value           = c.cod;
+  document.getElementById('f-notas').value         = c.notas;
+  document.getElementById('f-transportista').value = c.transportista || '';
+  document.getElementById('f-proveedores-list').innerHTML = '';
+  const provs = (c.proveedores && c.proveedores.length) ? c.proveedores : legacyProveedores(c);
+  provs.forEach(p => addProveedorRow(p.prov, p.pedido || ''));
+  if (!provs.length) addProveedorRow();
+  document.getElementById('modal-nueva').classList.add('open');
+}
+
+function guardarCarga() {
+  const fechaCarga  = document.getElementById('f-fecha-carga').value;
+  const proveedores = getProveedoresFromForm();
+  if (!fechaCarga)         { toast('La fecha de carga es obligatoria'); return; }
+  if (!proveedores.length) { toast('Añade al menos un proveedor'); return; }
+  if (proveedores.some(p => !p.prov)) { toast('Selecciona el proveedor en cada fila'); return; }
+
+  const ahora = new Date().toLocaleString('es-ES');
+  const dikaProv  = proveedores.find(p => p.prov === 'DIKA');
+  const castaProv = proveedores.find(p => p.prov === 'CASTA');
+  const irbalProv = proveedores.find(p => p.prov === 'IRBAL');
+  const provLegacy = (dikaProv||castaProv) ? 'DIKA+CASTA' : irbalProv ? 'IRBAL' : 'API TW';
+  const existente = editingId ? cargas.find(c => c.id === editingId) : null;
+
+  const carga = {
+    id:            editingId || uid(),
+    fechaCarga,
+    proveedor:     provLegacy,
+    proveedores,
+    pedidoDika:    dikaProv  ? dikaProv.pedido  : '',
+    pedidoCasta:   castaProv ? castaProv.pedido : '',
+    pedidoIrbal:   irbalProv ? irbalProv.pedido : '',
+    fechaCita:     document.getElementById('f-fecha-cita').value,
+    horaCita:      document.getElementById('f-hora-cita').value,
+    cod:           document.getElementById('f-cod').value.trim(),
+    estado:        existente ? existente.estado : 's-posible-carga',
+    notas:         document.getElementById('f-notas').value.trim(),
+    transportista: document.getElementById('f-transportista').value,
+    checklist:     existente ? (existente.checklist || {}) : {},
+    historial:     [],
+  };
+
+  if (editingId) {
+    const idx = cargas.findIndex(c => c.id === editingId);
+    if (idx !== -1) {
+      carga.historial = existente.historial || [];
+      carga.historial.unshift({ usuario: currentUser.name, accion: 'Carga editada', fecha: ahora });
+      cargas[idx] = carga;
+    }
+    toast('Carga actualizada');
+  } else {
+    carga.historial = [{ usuario: currentUser.name, accion: 'Carga creada · Estado: Posible carga', fecha: ahora }];
+    cargas.push(carga);
+    toast('Carga añadida');
+  }
+
+  saveToSheets();
+  renderTable();
+  updateCounts();
+  closeModal('modal-nueva');
+}
+
+function clearForm() {
+  ['f-fecha-carga','f-fecha-cita','f-hora-cita','f-cod','f-notas','f-transportista'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const list = document.getElementById('f-proveedores-list');
+  if (list) list.innerHTML = '';
+}
+
+function actualizarFormProv() {} // legacy stub
+
+
+
+// ─────────────────────────────────────────────
+// ESTADO MODAL
+// ─────────────────────────────────────────────
+function openEstado(id) {
+  const c = cargas.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('modal-estado-info').textContent =
+    `Carga: ${fmtDate(c.fechaCarga)} · ${PROV_SHORT[c.proveedor]||c.proveedor}`;
+
+  const steps = document.getElementById('estado-steps');
+  steps.innerHTML = '';
+  ESTADOS.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'estado-step' + (e.key === c.estado ? ' current' : '');
+    div.innerHTML = `
+      <div class="estado-step-icon">${estadoIcon(e.key)}</div>
+      <div>
+        <div class="estado-step-text">${e.label}</div>
+        <div class="estado-step-sub">${e.sub}</div>
+      </div>
+    `;
+    if (e.key !== c.estado) {
+      div.onclick = () => {
+        const carga = cargas.find(x => x.id === id);
+        if (carga) {
+          const ahora = new Date().toLocaleString('es-ES');
+          const estadoAnterior = ESTADO_LABELS[carga.estado] || carga.estado;
+          carga.estado = e.key;
+          if (!carga.historial) carga.historial = [];
+          carga.historial.unshift({
+            usuario: currentUser.name,
+            accion: `Estado cambiado: "${estadoAnterior}" → "${e.label}"`,
+            fecha: ahora
+          });
+          saveToSheets();
+          renderTable();
+          updateCounts();
+          toast('Estado actualizado: ' + e.label);
+        }
+        closeModal('modal-estado');
+      };
+    }
+    steps.appendChild(div);
+  });
+
+  document.getElementById('modal-estado').classList.add('open');
+}
+
+function estadoIcon(key) {
+  const icons = {
+    's-posible-carga':    '🔘',
+    's-espera-cita':      '⏳',
+    's-pedir-cita-extra': '🔴',
+    's-cita-asignada':    '📅',
+    's-fab1-confirmada':  '🔶',
+    's-fab-confirmada':   '✅',
+    's-espera-tpte':      '🚚',
+    's-lista-entrega':    '📦',
+    's-entregado':        '🟣',
+  };
+  return icons[key] || '·';
+}
+
+// ─────────────────────────────────────────────
+// ELIMINAR
+// ─────────────────────────────────────────────
+async function eliminarCarga(id) {
+  if (!confirm('¿Eliminar esta carga? Esta acción no se puede deshacer.')) return;
+  cargas = cargas.filter(c => c.id !== id);
+  await saveToSheets();
+  renderTable();
+  updateCounts();
+  updateTabCounts();
+  toast('Carga eliminada');
+}
+
+// ─────────────────────────────────────────────
+// HISTORIAL
+// ─────────────────────────────────────────────
+function openHistorial(id) {
+  const c = cargas.find(x => x.id === id);
+  if (!c) return;
+  const body = document.getElementById('historial-body');
+  const hist = c.historial || [];
+  if (hist.length === 0) {
+    body.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3);font-size:13px">Sin historial de cambios registrado.<br><small>Los cambios se registran a partir de ahora.</small></div>';
+  } else {
+    body.innerHTML = hist.map(h => `
+      <div class="historial-entry">
+        <div class="historial-dot"></div>
+        <div>
+          <div><span class="historial-user">${h.usuario}</span></div>
+          <div class="historial-accion">${h.accion}</div>
+          <div class="historial-fecha">${h.fecha}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('modal-historial').classList.add('open');
+}
+function toggleExportMenu() {
+  document.getElementById('export-dropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('export-menu-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('export-dropdown').classList.remove('open');
+  }
+});
+
+function getDataActual() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  let data = cargas.filter(c => matchesProvFilter(c, currentFilter)).filter(c => {
+    if (!query) return true;
+    return (c.pedidoDika+c.pedidoCasta+c.pedidoIrbal+c.cod+c.notas+c.proveedor).toLowerCase().includes(query);
+  });
+  data.sort((a,b) => toSortable(b.fechaCarga).localeCompare(toSortable(a.fechaCarga)));
+  return data;
+}
+
+function exportarCSV() {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const data = getDataActual();
+  const sep = ';';
+  const headers = ['Fecha Carga','Proveedor','Pedido DIKA','Pedido CASTA','Pedido IRBAL','Fecha Cita','Hora Cita','Código TR','Transportista','Estado','Notas'];
+  const rows = data.map(c => [
+    fmtDate(c.fechaCarga),
+    PROV_SHORT[c.proveedor] || c.proveedor,
+    c.pedidoDika  || '',
+    c.pedidoCasta || '',
+    c.pedidoIrbal || '',
+    fmtDate(c.fechaCita),
+    c.horaCita    || '',
+    c.cod         || '',
+    c.transportista || '',
+    ESTADO_LABELS[c.estado] || c.estado,
+    c.notas       || '',
+  ]);
+  const csvContent = [headers, ...rows]
+    .map(r => r.map(v => {
+      const val = String(v || '');
+      return val.includes(sep) || val.includes('"') || val.includes('\n')
+        ? `"${val.replace(/"/g, '""')}"` : val;
+    }).join(sep)).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `cargas_leroy_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('CSV exportado — ábrelo directamente con Excel');
+}
+
+function guardarPDF() {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const data = getDataActual();
+  const fecha = new Date().toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' });
+  const filtroActivo = document.getElementById('toolbar-title').textContent;
+  const filas = data.map(c => `
+    <tr>
+      <td>${fmtDate(c.fechaCarga)}</td>
+      <td><span class="pt ${c.proveedor==='DIKA+CASTA'?'pd':c.proveedor==='IRBAL'?'pi':'pa'}">${PROV_SHORT[c.proveedor]||c.proveedor}</span></td>
+      <td style="font-size:9px">${[c.pedidoDika,c.pedidoCasta,c.pedidoIrbal].filter(Boolean).join(' / ')||'—'}</td>
+      <td>${fmtDate(c.fechaCita)}</td>
+      <td>${c.horaCita||'—'}</td>
+      <td style="font-size:8px;color:#666">${c.cod||'—'}</td>
+      <td><span class="tb tb-${(c.transportista||'').toLowerCase()}">${c.transportista||'—'}</span></td>
+      <td><span class="eb e-${c.estado}">${ESTADO_LABELS[c.estado]||c.estado}</span></td>
+      <td style="font-size:9px;color:#666">${c.notas||''}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Cargas Leroy — ${fecha}</title>
+  <style>
+    @page{size:A4 landscape;margin:14mm 12mm}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;font-size:10px;color:#1a1a1a}
+    .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #FF6B00}
+    .header h1{font-size:16px;font-weight:700}
+    .header p{font-size:10px;color:#666;margin-top:3px}
+    .badge{font-size:9px;background:#FF6B00;color:white;padding:3px 8px;border-radius:4px;font-weight:600}
+    .meta{font-size:9px;color:#999;margin-top:3px;text-align:right}
+    .stats{display:flex;gap:12px;margin-bottom:12px}
+    .stat{background:#f5f5f5;border-radius:6px;padding:6px 12px}
+    .stat-n{font-size:15px;font-weight:700}
+    .stat-l{font-size:9px;color:#888}
+    table{width:100%;border-collapse:collapse}
+    th{background:#1a1a1a;color:white;padding:6px 8px;text-align:left;font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+    td{padding:7px 8px;border-bottom:1px solid #eee;font-size:10px;vertical-align:middle}
+    tr:nth-child(even) td{background:#fafafa}
+    .pt{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px}
+    .pd{background:#DFF0FF;color:#0A4A7A}.pi{background:#D8F5E8;color:#0A5530}.pa{background:#EDE8FF;color:#3A1A7A}
+    .tb{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px}
+    .tb-thc{background:#FFF3D6;color:#7A4F00}.tb-tw{background:#D6F5F0;color:#0A4A40}
+    .eb{display:inline-block;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px}
+    .e-s-posible-carga{background:#F0EFE9;color:#5F5E5A}
+    .e-s-espera-cita{background:#FFF3D6;color:#7A4F00}
+    .e-s-pedir-cita-extra{background:#FFE5E5;color:#7A1A1A}
+    .e-s-cita-asignada{background:#DFF0FF;color:#0A4A7A}
+    .e-s-fab1-confirmada{background:#EAF3DE;color:#3B6D11}
+    .e-s-fab-confirmada{background:#D8F5E8;color:#0A5530}
+    .e-s-espera-tpte{background:#E1F5EE;color:#085041}
+    .e-s-lista-entrega{background:#EEEDFE;color:#3C3489}
+    .e-s-entregado{background:#EDE8FF;color:#3A1A7A}
+    .footer{margin-top:12px;font-size:8px;color:#bbb;text-align:center;border-top:1px solid #eee;padding-top:8px}
+  </style></head><body>
+  <div class="header">
+    <div><h1>Gestión de Cargas — Leroy Merlin</h1><p>Altrad Plettac Ibérica · ${filtroActivo}</p></div>
+    <div style="text-align:right"><div class="badge">ALTRAD GROUP</div><div class="meta">Generado el ${fecha} · ${currentUser.name} · ${data.length} cargas</div></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">${data.length}</div><div class="stat-l">Total</div></div>
+    <div class="stat"><div class="stat-n">${data.filter(c=>c.estado==='s-entregado').length}</div><div class="stat-l">Entregadas</div></div>
+    <div class="stat"><div class="stat-n">${data.filter(c=>c.estado==='s-tpte-confirmado').length}</div><div class="stat-l">Transporte OK</div></div>
+    <div class="stat"><div class="stat-n">${data.filter(c=>c.estado==='s-fab-confirmada').length}</div><div class="stat-l">Fábrica OK</div></div>
+    <div class="stat"><div class="stat-n">${data.filter(c=>c.estado==='s-cita-asignada').length}</div><div class="stat-l">Cita asignada</div></div>
+    <div class="stat"><div class="stat-n" style="color:#D43F3F">${data.filter(c=>['s-espera-cita','s-espera-extra'].includes(c.estado)).length}</div><div class="stat-l">Pendientes</div></div>
+  </div>
+  <table><thead><tr>
+    <th>Fecha carga</th><th>Proveedor</th><th>Pedidos</th>
+    <th>Fecha cita</th><th>Hora</th><th>Código TR</th><th>Tpte</th><th>Estado</th><th>Notas</th>
+  </tr></thead><tbody>${filas}</tbody></table>
+  <div class="footer">Altrad Plettac Ibérica · Sistema Gestión de Cargas · ${new Date().toLocaleString('es-ES')}</div>
+  <script>window.onload=()=>{window.print()}<\/script>
+  </body></html>`;
+  const blob = new Blob([html], { type:'text/html;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const win  = window.open(url, '_blank');
+  if (!win) toast('Activa las ventanas emergentes en tu navegador');
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
+  toast('Se abre el PDF — en el diálogo elige "Guardar como PDF"');
+}
+
+function imprimirTabla() {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const data = getDataActual();
+  const fecha = new Date().toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' });
+  const meta = document.getElementById('print-meta');
+  if (meta) meta.textContent = `Altrad Plettac Ibérica · ${document.getElementById('toolbar-title').textContent} · ${fecha} · ${currentUser.name} · ${data.length} cargas`;
+  document.getElementById('print-header').style.display = 'block';
+  window.print();
+  setTimeout(() => { document.getElementById('print-header').style.display = 'none'; }, 1000);
+  toast('Enviando a impresora...');
+}
+
+
+// ─────────────────────────────────────────────
+// CONFIG PANEL
+// ─────────────────────────────────────────────
+function toggleConfig() {
+  const p = document.getElementById('config-panel');
+  p.classList.toggle('visible');
+  if (p.classList.contains('visible')) {
+    document.getElementById('cfg-sheet-id').value  = localStorage.getItem('cfg_sheet_id')  || '';
+    document.getElementById('cfg-api-key').value   = localStorage.getItem('cfg_api_key')   || '';
+    const cidEl = document.getElementById('cfg-client-id');
+    if (cidEl) cidEl.value = localStorage.getItem('cfg_client_id') || '';
+    const btnOAuth = document.getElementById('btn-oauth');
+    if (btnOAuth && localStorage.getItem('cfg_client_id')) btnOAuth.style.display = '';
+  }
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  if (d.includes('/')) return d;
+  const [y,m,dd] = d.split('-');
+  return `${dd}/${m}/${y}`;
+}
+
+function toSortable(d) {
+  if (!d) return '';
+  if (d.includes('/')) {
+    const [dd,mm,yyyy] = d.split('/');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  return d;
+}
+
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+
+// ─────────────────────────────────────────────
+// TABS
+// ─────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-cargas').classList.toggle('active', tab === 'cargas');
+  document.getElementById('tab-citas').classList.toggle('active',  tab === 'citas');
+  document.getElementById('cargas-panel').classList.toggle('hidden', tab !== 'cargas');
+  document.getElementById('citas-panel').classList.toggle('active',  tab === 'citas');
+}
+
+// ─────────────────────────────────────────────
+// CITAS DATA
+// ─────────────────────────────────────────────
+let citas = [];
+
+function loadCitasFromStorage() {
+  const saved = localStorage.getItem('citas_data');
+  citas = saved ? JSON.parse(saved) : [];
+}
+
+function saveCitasToStorage() {
+  localStorage.setItem('citas_data', JSON.stringify(citas));
+}
+
+async function loadCitasFromSheets() {
+  const { SHEET_ID, API_KEY } = getConfig();
+  if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY) return;
+  try {
+    const url  = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Citas?key=${API_KEY}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (data.error || !data.values || data.values.length < 2) return;
+    const [, ...rows] = data.values;
+    citas = rows.map(r => ({
+      id:     r[0] || uid(),
+      cod:    r[1] || '',
+      fecha:  r[2] || '',
+      hora:   r[3] || '',
+      raw:    r[4] || '',
+    }));
+    saveCitasToStorage();
+    renderCitas();
+    updateTabCounts();
+  } catch(e) {
+    loadCitasFromStorage();
+    renderCitas();
+  }
+}
+
+async function saveCitasToSheets() {
+  const { SHEET_ID } = getConfig();
+  saveCitasToStorage();
+  if (!oauthToken || !SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI') {
+    if (!oauthToken) toast('Sin autorización OAuth. Ve a ⚙ → Autorizar escritura para sincronizar con Sheets.');
+    return;
+  }
+  const values = [
+    ['ID','Código TR','Fecha','Hora','Texto original'],
+    ...citas.map(c => [c.id, c.cod, c.fecha, c.hora, c.raw])
+  ];
+  try {
+    const res = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Citas?valueInputOption=RAW`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${oauthToken}` },
+        body: JSON.stringify({ range: 'Citas', majorDimension: 'ROWS', values }),
+      }
+    );
+    const data = await res.json();
+    if (data.error) {
+      if (data.error.code === 401) {
+        oauthToken = null;
+        localStorage.removeItem('oauth_token');
+        setConexion('desconectado', 'Sesión expirada');
+        toast('Sesión expirada. Ve a ⚙ → Autorizar escritura para renovarla.');
+      } else {
+        throw new Error(data.error.message);
+      }
+    }
+  } catch(e) {
+    toast('Error al guardar citas en Sheets. Guardado localmente.');
+  }
+}
+
+// ─────────────────────────────────────────────
+// PARSEAR CITA LEROY
+// ─────────────────────────────────────────────
+function parsearLineaCita(linea) {
+  linea = linea.trim();
+  if (!linea) return null;
+
+  // Extract TR code — pattern TRTOR1-...
+  const codMatch = linea.match(/TRTOR1-[\w-]+/i);
+  const cod = codMatch ? codMatch[0].toUpperCase() : '';
+
+  // Extract date DD/MM/YYYY
+  const fechaMatch = linea.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  let fecha = '';
+  if (fechaMatch) {
+    const dd   = fechaMatch[1].padStart(2,'0');
+    const mm   = fechaMatch[2].padStart(2,'0');
+    const yyyy = fechaMatch[3].length === 2 ? '20'+fechaMatch[3] : fechaMatch[3];
+    fecha = `${dd}/${mm}/${yyyy}`;
+  }
+
+  // Extract time HH:MM
+  const horaMatch = linea.match(/(\d{1,2}):(\d{2})\s*h?/i);
+  const hora = horaMatch ? `${horaMatch[1].padStart(2,'0')}:${horaMatch[2]}` : '';
+
+  if (!cod && !fecha) return null;
+  return { id: uid(), cod, fecha, hora, raw: linea };
+}
+
+function parsearCita() {
+  const input = document.getElementById('cita-input').value;
+  const lineas = input.split('\n').filter(l => l.trim());
+  const parsed = lineas.map(parsearLineaCita).filter(Boolean);
+  const preview = document.getElementById('cita-preview');
+  if (!parsed.length) { preview.className = 'cita-preview'; return; }
+  preview.className = 'cita-preview visible';
+  preview.innerHTML = parsed.map(p =>
+    `<div style="padding:4px 0;border-bottom:1px solid var(--border)">
+      <strong>${p.cod||'—'}</strong> &nbsp;·&nbsp; ${p.fecha||'—'} &nbsp;·&nbsp; ${p.hora||'—'}
+    </div>`
+  ).join('');
+}
+
+function openAnadirCita() {
+  document.getElementById('cita-input').value = '';
+  document.getElementById('cita-preview').className = 'cita-preview';
+  document.getElementById('modal-cita').classList.add('open');
+}
+
+function guardarCitas() {
+  const input  = document.getElementById('cita-input').value;
+  const lineas = input.split('\n').filter(l => l.trim());
+  const parsed = lineas.map(parsearLineaCita).filter(Boolean);
+  if (!parsed.length) { toast('No se encontraron citas válidas — comprueba el formato'); return; }
+  citas.push(...parsed);
+  // Sort by fecha asc
+  ordenarCitas();
+  saveCitasToSheets();
+  renderCitas();
+  updateTabCounts();
+  closeModal('modal-cita');
+  toast(`${parsed.length} cita${parsed.length>1?'s':''} añadida${parsed.length>1?'s':''}`);
+}
+
+function ordenarCitas() {
+  citas.sort((a,b) => toSortable(a.fecha).localeCompare(toSortable(b.fecha)) || a.hora.localeCompare(b.hora));
+}
+
+function diasRestantes(fecha) {
+  if (!fecha) return null;
+  const [dd,mm,yyyy] = fecha.split('/');
+  const d = new Date(parseInt(yyyy), parseInt(mm)-1, parseInt(dd));
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const diff = Math.round((d - hoy) / 86400000);
+  return diff;
+}
+
+// ─────────────────────────────────────────────
+// RENDER CITAS
+// ─────────────────────────────────────────────
+function renderCitas() {
+  const grid = document.getElementById('citas-grid');
+  if (!grid) return;
+  if (!citas.length) {
+    grid.innerHTML = `
+      <div class="cita-empty">
+        <div class="cita-empty-icon">📅</div>
+        <h3>No hay citas pendientes de asignar</h3>
+        <p>Pulsa "+ Añadir cita Leroy" para pegar las citas de la semana.</p>
+      </div>`;
+    return;
+  }
+  grid.innerHTML = citas.map(c => {
+    const dias = diasRestantes(c.fecha);
+    let diasTxt = '';
+    if (dias !== null) {
+      if (dias < 0)      diasTxt = `<span style="color:var(--red-dot)">Vencida hace ${Math.abs(dias)}d</span>`;
+      else if (dias === 0) diasTxt = `<span style="color:#D4890A;font-weight:600">Hoy</span>`;
+      else if (dias === 1) diasTxt = `<span style="color:#D4890A">Mañana</span>`;
+      else                 diasTxt = `<span style="color:var(--text3)">En ${dias} días</span>`;
+    }
+    return `
+      <div class="cita-card">
+        <div class="cita-card-top">
+          <span class="cita-cod">${c.cod||'Sin código TR'}</span>
+        </div>
+        <div class="cita-fecha">
+          <span class="cita-fecha-badge">${c.fecha||'—'}</span>
+          <span class="cita-hora-badge">${c.hora||'—'}</span>
+          <span class="cita-dias">${diasTxt}</span>
+        </div>
+        <div class="cita-actions">
+          <button class="act-btn avanzar" onclick="openAsignarCita('${c.id}')">Asignar a carga</button>
+          <button class="act-btn danger" onclick="eliminarCita('${c.id}')">✕</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function eliminarCita(id) {
+  if (!confirm('¿Eliminar esta cita?')) return;
+  citas = citas.filter(c => c.id !== id);
+  await saveCitasToSheets();
+  renderCitas();
+  updateTabCounts();
+  toast('Cita eliminada');
+}
+
+// ─────────────────────────────────────────────
+// ASIGNAR CITA A CARGA
+// ─────────────────────────────────────────────
+let citaAsignandoId = null;
+
+function openAsignarCita(citaId) {
+  citaAsignandoId = citaId;
+  const cita = citas.find(c => c.id === citaId);
+  if (!cita) return;
+
+  document.getElementById('asignar-info').innerHTML =
+    `Asignando: <strong>${cita.cod||'Sin TR'}</strong> — ${cita.fecha} a las ${cita.hora}`;
+
+  // Show cargas without cita assigned, sorted by fechaCarga
+  const candidatas = cargas
+    .filter(c => !c.cod || c.cod === '')
+    .sort((a,b) => toSortable(a.fechaCarga).localeCompare(toSortable(b.fechaCarga)));
+
+  const list = document.getElementById('asignar-list');
+  if (!candidatas.length) {
+    list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px">No hay cargas sin cita asignada.</div>';
+  } else {
+    list.innerHTML = candidatas.map(c => {
+      const provs = (c.proveedores&&c.proveedores.length) ? c.proveedores : legacyProveedores(c);
+      const provStr = proveedoresShort(provs) || c.proveedor;
+      return `
+        <div class="asignar-item" onclick="asignarCitaACarga('${citaId}','${c.id}')">
+          <div class="asignar-item-info">
+            <div class="asignar-item-fecha">Carga ${fmtDate(c.fechaCarga)}</div>
+            <div class="asignar-item-prov">${provStr} · ${ESTADO_LABELS[c.estado]||c.estado}</div>
+          </div>
+          <span class="prov-tag ${PROV_CLASS[c.proveedor]||'prov-api'}" style="font-size:10px">${provStr}</span>
+        </div>`;
+    }).join('');
+  }
+  document.getElementById('modal-asignar').classList.add('open');
+}
+
+function asignarCitaACarga(citaId, cargaId) {
+  const cita  = citas.find(c => c.id === citaId);
+  const carga = cargas.find(c => c.id === cargaId);
+  if (!cita || !carga) return;
+
+  const ahora = new Date().toLocaleString('es-ES');
+  carga.cod      = cita.cod;
+  carga.fechaCita = cita.fecha;
+  carga.horaCita  = cita.hora;
+  if (carga.estado === 's-posible-carga' || carga.estado === 's-espera-cita') {
+    carga.estado = 's-cita-asignada';
+  }
+  if (!carga.historial) carga.historial = [];
+  carga.historial.unshift({
+    usuario: currentUser.name,
+    accion:  `Cita asignada: ${cita.cod} — ${cita.fecha} ${cita.hora}`,
+    fecha:   ahora
+  });
+
+  // Remove cita from list
+  citas = citas.filter(c => c.id !== citaId);
+
+  saveToSheets();
+  saveCitasToSheets();
+  renderTable();
+  renderCitas();
+  updateCounts();
+  updateTabCounts();
+  closeModal('modal-asignar');
+  toast(`Cita asignada a la carga del ${fmtDate(carga.fechaCarga)} — estado actualizado a Cita asignada`);
+}
+
+function matchesProvFilter(c, filter) {
+  if (filter === 'all') return true;
+  if (filter.startsWith('s-')) return c.estado === filter;
+  // Check legacy proveedor field
+  if (filter === 'API TW') {
+    if (c.proveedor === 'API TW' || c.proveedor === 'API') return true;
+    // Check dynamic proveedores
+    const provs = c.proveedores || [];
+    return provs.some(p => p.prov === 'API');
+  }
+  if (filter === 'DIKA+CASTA') {
+    if (c.proveedor === 'DIKA+CASTA') return true;
+    const provs = c.proveedores || [];
+    return provs.some(p => p.prov === 'DIKA' || p.prov === 'CASTA');
+  }
+  if (filter === 'IRBAL') {
+    if (c.proveedor === 'IRBAL') return true;
+    const provs = c.proveedores || [];
+    return provs.some(p => p.prov === 'IRBAL');
+  }
+  return c.proveedor === filter;
+}
+  const cntCargas = document.getElementById('tab-cnt-cargas');
+  const cntCitas  = document.getElementById('tab-cnt-citas');
+  if (cntCargas) cntCargas.textContent = cargas.length;
+  if (cntCitas)  cntCitas.textContent  = citas.length;
+}
+
+
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+});
+</script>
+</body>
+</html>
