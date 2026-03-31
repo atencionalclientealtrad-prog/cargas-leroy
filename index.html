@@ -16,34 +16,34 @@
   --text2: #6B6960;
   --text3: #9E9C94;
   --accent: #1A1916;
-
+ 
   --amber-bg: #FFF3D6;
   --amber-text: #7A4F00;
   --amber-dot: #D4890A;
-
+ 
   --blue-bg: #DFF0FF;
   --blue-text: #0A4A7A;
   --blue-dot: #1878C8;
-
+ 
   --green-bg: #D8F5E8;
   --green-text: #0A5530;
   --green-dot: #16A05A;
-
+ 
   --teal-bg: #D6F5F0;
   --teal-text: #0A4A40;
   --teal-dot: #0D9E88;
-
+ 
   --purple-bg: #EDE8FF;
   --purple-text: #3A1A7A;
   --purple-dot: #6B3FD4;
-
+ 
   --red-bg: #FFE5E5;
   --red-text: #7A1A1A;
   --red-dot: #D43F3F;
 }
-
+ 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
@@ -51,7 +51,7 @@ body {
   min-height: 100vh;
   font-size: 14px;
 }
-
+ 
 /* ── LAYOUT ── */
 .shell {
   display: grid;
@@ -59,7 +59,7 @@ body {
   grid-template-rows: 56px 1fr;
   min-height: 100vh;
 }
-
+ 
 /* ── TOPBAR ── */
 .topbar {
   grid-column: 1 / -1;
@@ -96,7 +96,7 @@ body {
   border-radius: 20px;
   border: 1px solid var(--border);
 }
-
+ 
 /* ── SIDEBAR ── */
 .sidebar {
   background: var(--surface);
@@ -140,9 +140,9 @@ body {
   border-radius: 10px;
 }
 .sidebar-item.active .count { background: rgba(255,255,255,0.2); }
-
+ 
 .sidebar-divider { height: 1px; background: var(--border); margin: 8px 0; }
-
+ 
 .sidebar-stats {
   margin-top: auto;
   padding: 16px;
@@ -157,14 +157,14 @@ body {
   color: var(--text2);
 }
 .sidebar-stat strong { color: var(--text); font-weight: 600; }
-
+ 
 /* ── MAIN ── */
 .main {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
-
+ 
 /* ── TOOLBAR ── */
 .toolbar {
   display: flex;
@@ -200,7 +200,7 @@ body {
   width: 180px;
 }
 .search-box input::placeholder { color: var(--text3); }
-
+ 
 .btn {
   display: inline-flex;
   align-items: center;
@@ -224,14 +224,14 @@ body {
   border-color: var(--accent);
 }
 .btn-primary:hover { background: #333; border-color: #333; }
-
+ 
 /* ── TABLE AREA ── */
 .table-area {
   flex: 1;
   overflow-y: auto;
   padding: 16px 20px;
 }
-
+ 
 /* ── CARGAS TABLE ── */
 .cargas-table {
   width: 100%;
@@ -263,14 +263,14 @@ body {
 .cargas-table tr:last-child td { border-bottom: none; }
 .cargas-table tbody tr { transition: background 0.1s; }
 .cargas-table tbody tr:hover td { background: #FAFAF7; }
-
+ 
 .fecha-badge {
   font-family: 'DM Mono', monospace;
   font-size: 12px;
   font-weight: 500;
   color: var(--text);
 }
-
+ 
 .prov-tag {
   display: inline-block;
   font-size: 11px;
@@ -282,7 +282,7 @@ body {
 .prov-dika { background: #DFF0FF; color: #0A4A7A; }
 .prov-irbal { background: #D8F5E8; color: #0A5530; }
 .prov-api { background: #EDE8FF; color: #3A1A7A; }
-
+ 
 .tpte-tag {
   display: inline-block;
   font-size: 11px;
@@ -293,20 +293,20 @@ body {
 }
 .tpte-thc { background: #FFF3D6; color: #7A4F00; }
 .tpte-tw  { background: #D6F5F0; color: #0A4A40; }
-
+ 
 .pedidos-cell {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   color: var(--text2);
   max-width: 180px;
 }
-
+ 
 .cita-cell {
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 }
-
+ 
 .cod-cell {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -316,7 +316,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+ 
 .estado-badge {
   display: inline-flex;
   align-items: center;
@@ -332,7 +332,7 @@ body {
   border-radius: 50%;
   flex-shrink: 0;
 }
-
+ 
 .s-posible-carga    { background: #F0EFE9; color: #5F5E5A; }
 .s-posible-carga .estado-dot { background: #888780; }
 .s-espera-cita      { background: #FFF3D6; color: #7A4F00; }
@@ -351,7 +351,7 @@ body {
 .s-lista-entrega .estado-dot { background: #534AB7; }
 .s-entregado        { background: #EDE8FF; color: #3A1A7A; }
 .s-entregado .estado-dot { background: #6B3FD4; }
-
+ 
 .actions-cell {
   display: flex;
   gap: 6px;
@@ -373,7 +373,7 @@ body {
 .act-btn.avanzar { background: var(--accent); color: white; border-color: var(--accent); }
 .act-btn.avanzar:hover { background: #333; }
 .act-btn.danger:hover { background: var(--red-bg); color: var(--red-text); border-color: var(--red-dot); }
-
+ 
 /* ── MODAL ── */
 .modal-overlay {
   display: none;
@@ -435,7 +435,7 @@ body {
   justify-content: flex-end;
   gap: 8px;
 }
-
+ 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
 .form-group.full { grid-column: 1 / -1; }
@@ -466,9 +466,9 @@ select.form-control {
   background-position: right 10px center;
   padding-right: 30px;
 }
-
+ 
 .form-hint { font-size: 11px; color: var(--text3); }
-
+ 
 /* ── ESTADO DETAIL MODAL ── */
 .estado-steps {
   display: flex;
@@ -491,7 +491,7 @@ select.form-control {
 .estado-step-icon { font-size: 16px; width: 24px; text-align: center; }
 .estado-step-text { flex: 1; font-size: 13px; font-weight: 500; }
 .estado-step-sub { font-size: 11px; opacity: 0.6; margin-top: 1px; }
-
+ 
 /* ── EMPTY STATE ── */
 .empty-state {
   text-align: center;
@@ -501,7 +501,7 @@ select.form-control {
 .empty-state-icon { font-size: 32px; margin-bottom: 12px; }
 .empty-state h3 { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
 .empty-state p { font-size: 13px; }
-
+ 
 /* ── TOAST ── */
 .toast-container {
   position: fixed;
@@ -527,7 +527,7 @@ select.form-control {
   from { transform: translateX(30px); opacity: 0; }
   to   { transform: translateX(0); opacity: 1; }
 }
-
+ 
 /* ── CONFIG PANEL ── */
 .config-panel {
   display: none;
@@ -576,7 +576,7 @@ select.form-control {
   color: var(--text);
   border: 1px solid var(--border);
 }
-
+ 
 /* ── LEGEND ── */
 .legend {
   display: flex;
@@ -597,12 +597,12 @@ select.form-control {
   width: 8px; height: 8px;
   border-radius: 50%;
 }
-
+ 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
+ 
 /* ── LOGIN SCREEN ── */
 .login-screen {
   position: fixed;
@@ -615,7 +615,7 @@ select.form-control {
   overflow: hidden;
 }
 .login-screen.hidden { display: none; }
-
+ 
 .login-scaffold {
   position: absolute;
   inset: 0;
@@ -624,7 +624,7 @@ select.form-control {
 .login-scaffold svg {
   width: 100%; height: 100%;
 }
-
+ 
 /* Concrete texture grain */
 .login-scaffold::after {
   content: '';
@@ -634,7 +634,7 @@ select.form-control {
   opacity: 0.4;
   pointer-events: none;
 }
-
+ 
 .login-gradient {
   position: absolute;
   inset: 0;
@@ -643,7 +643,7 @@ select.form-control {
     radial-gradient(ellipse at 15% 70%, rgba(255,107,0,0.08) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 60%);
 }
-
+ 
 /* Mixer drum rotation animation */
 @keyframes drumSpin {
   from { transform: rotate(0deg); }
@@ -666,14 +666,14 @@ select.form-control {
   50%       { opacity: 1; }
 }
 .mixer-light { animation: floatLight 3s ease-in-out infinite; }
-
+ 
 .login-card {
   position: relative;
   z-index: 2;
   width: 420px;
   max-width: 95vw;
 }
-
+ 
 .login-logo {
   text-align: center;
   margin-bottom: 32px;
@@ -700,7 +700,7 @@ select.form-control {
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.02em;
 }
-
+ 
 .login-label {
   font-size: 11px;
   font-weight: 600;
@@ -710,7 +710,7 @@ select.form-control {
   margin-bottom: 10px;
   display: block;
 }
-
+ 
 .user-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -761,7 +761,7 @@ select.form-control {
   font-size: 10px;
   color: rgba(255,255,255,0.35);
 }
-
+ 
 .login-enter-btn {
   width: 100%;
   padding: 14px;
@@ -786,7 +786,7 @@ select.form-control {
   background: #E55F00;
   transform: translateY(-1px);
 }
-
+ 
 .login-footer {
   text-align: center;
   margin-top: 20px;
@@ -794,7 +794,7 @@ select.form-control {
   color: rgba(255,255,255,0.2);
   letter-spacing: 0.05em;
 }
-
+ 
 /* ── USER BADGE IN TOPBAR ── */
 .user-badge {
   display: flex;
@@ -821,7 +821,7 @@ select.form-control {
 .ub-admin     { background: rgba(255,107,0,0.15); color: #CC5500; }
 .ub-comercial { background: rgba(59,130,246,0.15); color: #1D4ED8; }
 .ub-logistica { background: rgba(34,197,94,0.15);  color: #15803D; }
-
+ 
 /* ── HISTORIAL MODAL ── */
 .historial-entry {
   display: flex;
@@ -851,7 +851,7 @@ select.form-control {
   color: var(--text3);
   margin-top: 2px;
 }
-
+ 
 /* ── CONEXION STATUS ── */
 .conexion-badge {
   display: flex;
@@ -895,7 +895,7 @@ select.form-control {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
-
+ 
 /* ── CHECKLIST ── */
 .checklist-wrap {
   display: flex;
@@ -930,7 +930,7 @@ select.form-control {
   flex-shrink: 0;
 }
 .checklist-item.done { color: var(--text3); text-decoration: line-through; }
-
+ 
 /* ── DYNAMIC PROVIDERS ── */
 .prov-entry {
   display: flex;
@@ -967,8 +967,8 @@ select.form-control {
   transition: background 0.12s;
 }
 .add-prov-btn:hover { background: rgba(255,107,0,0.06); }
-
-
+ 
+ 
 .export-menu-wrap {
   position: relative;
 }
@@ -1005,7 +1005,7 @@ select.form-control {
 .export-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
 .export-item-title { font-size: 13px; font-weight: 500; color: var(--text); }
 .export-item-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
-
+ 
 /* ── TABS ── */
 .tabs-nav {
   display: flex;
@@ -1048,7 +1048,7 @@ select.form-control {
   color: #CC5500;
   border-color: rgba(255,107,0,0.3);
 }
-
+ 
 /* ── CITAS PANEL ── */
 .citas-panel {
   display: none;
@@ -1059,7 +1059,7 @@ select.form-control {
 .citas-panel.active { display: flex; }
 .cargas-panel { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
 .cargas-panel.hidden { display: none; }
-
+ 
 .citas-toolbar {
   display: flex;
   align-items: center;
@@ -1141,7 +1141,7 @@ select.form-control {
 }
 .cita-empty-icon { font-size: 32px; margin-bottom: 12px; }
 .cita-empty h3 { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
-
+ 
 /* ── MODAL AÑADIR CITA ── */
 .cita-textarea {
   width: 100%;
@@ -1169,7 +1169,7 @@ select.form-control {
 }
 .cita-preview.visible { display: block; }
 .cita-preview strong { color: var(--text); }
-
+ 
 /* ── MODAL ASIGNAR CITA ── */
 .asignar-list {
   display: flex;
@@ -1192,8 +1192,8 @@ select.form-control {
 .asignar-item-info { flex: 1; }
 .asignar-item-fecha { font-size: 13px; font-weight: 500; }
 .asignar-item-prov { font-size: 11px; color: var(--text2); margin-top: 2px; }
-
-
+ 
+ 
 @media print {
   .login-screen, .sidebar, .topbar, .toolbar, .legend,
   .toast-container, .modal-overlay, .export-menu-wrap,
@@ -1214,7 +1214,7 @@ select.form-control {
 }
 .print-header h1 { font-size: 16px; font-weight: 700; }
 .print-header p { font-size: 11px; color: #666; }
-
+ 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .shell { grid-template-columns: 1fr; grid-template-rows: 56px auto 1fr; }
@@ -1225,7 +1225,7 @@ select.form-control {
 </style>
 </head>
 <body>
-
+ 
 <!-- ── CONFIG ── -->
 <script>
 const CONFIG = {
@@ -1238,9 +1238,9 @@ const CONFIG = {
 <!-- Google API client -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-
+ 
 <div class="shell">
-
+ 
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-brand">
@@ -1261,7 +1261,7 @@ const CONFIG = {
       <button class="btn" id="btn-config" onclick="toggleConfig()" style="display:none">⚙ Configuración</button>
     </div>
   </header>
-
+ 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-section">Filtros</div>
@@ -1308,13 +1308,13 @@ const CONFIG = {
     <button class="sidebar-item" data-filter="API TW" onclick="setFilter('API TW',this)">
       Almacén (API TW)
     </button>
-
+ 
     <div class="sidebar-stats">
       <div class="sidebar-stat">Semana actual <strong id="stat-semana">0</strong></div>
       <div class="sidebar-stat">Entregadas hoy <strong id="stat-hoy">0</strong></div>
     </div>
   </aside>
-
+ 
   <!-- MAIN -->
   <main class="main">
     <!-- CONFIG PANEL -->
@@ -1353,7 +1353,7 @@ const CONFIG = {
         </div>
       </div>
     </div>
-
+ 
   <!-- TABS -->
   <div class="tabs-nav">
     <button class="tab-btn active" id="tab-cargas" onclick="switchTab('cargas')">
@@ -1363,7 +1363,7 @@ const CONFIG = {
       Citas por asignar <span class="tab-count" id="tab-cnt-citas">0</span>
     </button>
   </div>
-
+ 
   <!-- CARGAS PANEL -->
   <div class="cargas-panel" id="cargas-panel">
     <!-- TOOLBAR -->
@@ -1404,7 +1404,7 @@ const CONFIG = {
         </div>
       </div>
     </div>
-
+ 
     <!-- LEGEND -->
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#888780"></div> Posible carga</div>
@@ -1417,7 +1417,7 @@ const CONFIG = {
       <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div> Lista para entrega</div>
       <div class="legend-item"><div class="legend-dot" style="background:#6B3FD4"></div> Entregada</div>
     </div>
-
+ 
     <!-- TABLE -->
     <div class="table-area">
       <div class="print-header" id="print-header">
@@ -1448,7 +1448,7 @@ const CONFIG = {
       </div>
     </div>
   </div><!-- end cargas-panel -->
-
+ 
   <!-- CITAS PANEL -->
   <div class="citas-panel" id="citas-panel">
     <div class="citas-toolbar">
@@ -1457,10 +1457,10 @@ const CONFIG = {
     </div>
     <div class="citas-grid" id="citas-grid"></div>
   </div>
-
+ 
   </main>
 </div>
-
+ 
 <!-- ── MODAL AÑADIR CITA ── -->
 <div class="modal-overlay" id="modal-cita">
   <div class="modal" style="width:500px">
@@ -1482,7 +1482,7 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
+ 
 <!-- ── MODAL ASIGNAR CITA ── -->
 <div class="modal-overlay" id="modal-asignar">
   <div class="modal" style="width:480px">
@@ -1499,7 +1499,7 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
+ 
 <!-- ── MODAL SELECTOR DE CITAS ── -->
 <div class="modal-overlay on-top" id="modal-selector-citas">
   <div class="modal" style="width:500px">
@@ -1515,7 +1515,7 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
+ 
 <!-- ── LOGIN SCREEN ── -->
 <div class="login-screen" id="login-screen">
   <!-- Scaffold background -->
@@ -1547,10 +1547,10 @@ const CONFIG = {
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-
+ 
       <!-- Dark industrial background -->
       <rect width="1400" height="900" fill="#0D0B09"/>
-
+ 
       <!-- Floor / ground shadow -->
       <ellipse cx="700" cy="860" rx="480" ry="40" fill="#000" opacity="0.5"/>
       <rect x="0" y="820" width="1400" height="80" fill="#0A0908"/>
@@ -1561,7 +1561,7 @@ const CONFIG = {
       <line x1="700" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
       <line x1="1000" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
       <line x1="1300" y1="820" x2="700" y2="900" stroke="#1A1815" stroke-width="1" opacity="0.5"/>
-
+ 
       <!-- Background mixer silhouettes (faded) -->
       <g opacity="0.08">
         <ellipse cx="180" cy="500" rx="90" ry="110" fill="#FF6B00"/>
@@ -1572,7 +1572,7 @@ const CONFIG = {
         <ellipse cx="1220" cy="480" rx="80" ry="100" fill="#FF6B00"/>
         <rect x="1185" y="555" width="70" height="110" fill="#FF6B00"/>
       </g>
-
+ 
       <!-- ── MAIN CONCRETE MIXER ── -->
       <!-- Chassis / frame -->
       <rect x="420" y="670" width="560" height="160" rx="8" fill="url(#bodyGrad)" opacity="0.95"/>
@@ -1584,7 +1584,7 @@ const CONFIG = {
       <line x1="484" y1="820" x2="556" y2="820" stroke="#2A2520" stroke-width="3"/>
       <line x1="495" y1="795" x2="545" y2="845" stroke="#2A2520" stroke-width="2"/>
       <line x1="545" y1="795" x2="495" y2="845" stroke="#2A2520" stroke-width="2"/>
-
+ 
       <circle cx="880" cy="820" r="52" fill="#1A1815" stroke="#2A2520" stroke-width="4"/>
       <circle cx="880" cy="820" r="36" fill="#141210" stroke="#3A3530" stroke-width="3"/>
       <circle cx="880" cy="820" r="14" fill="#FF6B00" opacity="0.8"/>
@@ -1592,15 +1592,15 @@ const CONFIG = {
       <line x1="844" y1="820" x2="916" y2="820" stroke="#2A2520" stroke-width="3"/>
       <line x1="855" y1="795" x2="905" y2="845" stroke="#2A2520" stroke-width="2"/>
       <line x1="905" y1="795" x2="855" y2="845" stroke="#2A2520" stroke-width="2"/>
-
+ 
       <!-- Support legs -->
       <rect x="590" y="640" width="24" height="100" rx="4" fill="#222018"/>
       <rect x="786" y="640" width="24" height="100" rx="4" fill="#222018"/>
-
+ 
       <!-- Support arm to drum -->
       <polygon points="560,650 840,650 780,430 620,430" fill="#1E1C18" opacity="0.9"/>
       <rect x="615" y="425" width="170" height="14" rx="4" fill="#2A2722"/>
-
+ 
       <!-- ── ROTATING DRUM ── -->
       <g class="mixer-drum">
         <!-- Drum body -->
@@ -1618,25 +1618,25 @@ const CONFIG = {
         <path d="M558,380 Q700,350 842,380 Q700,400 558,380Z" fill="#FF6B00" opacity="0.15"/>
         <path d="M548,460 Q700,440 852,460 Q700,480 548,460Z" fill="#FF6B00" opacity="0.10"/>
       </g>
-
+ 
       <!-- Spiral blades inside drum (counter-rotate) -->
       <g class="mixer-spiral" opacity="0.4">
         <path d="M660,260 Q720,320 680,380 Q640,440 700,500 Q760,560 720,600" fill="none" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
         <path d="M740,260 Q680,320 720,380 Q760,440 700,500 Q640,560 680,600" fill="none" stroke="#FF6B00" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
       </g>
-
+ 
       <!-- Drum shine overlay -->
       <ellipse cx="660" cy="340" rx="50" ry="70" fill="white" opacity="0.04"/>
-
+ 
       <!-- ── DISCHARGE CHUTE ── -->
       <polygon points="840,590 920,590 980,700 900,700" fill="url(#chute)" opacity="0.9"/>
       <line x1="840" y1="590" x2="980" y2="700" stroke="#3A3530" stroke-width="2"/>
       <line x1="920" y1="590" x2="900" y2="700" stroke="#3A3530" stroke-width="1"/>
-
+ 
       <!-- Concrete drip from chute -->
       <ellipse cx="935" cy="705" rx="28" ry="8" fill="#2A2822" opacity="0.7"/>
       <path d="M920,700 Q935,720 950,700" fill="#2A2822" opacity="0.5"/>
-
+ 
       <!-- ── CONTROL PANEL ── -->
       <rect x="440" y="685" width="80" height="60" rx="4" fill="#1A1815" stroke="#2A2520" stroke-width="1"/>
       <circle cx="460" cy="705" r="7" fill="#FF6B00" opacity="0.9" filter="url(#softglow)" class="mixer-light"/>
@@ -1644,7 +1644,7 @@ const CONFIG = {
       <circle cx="500" cy="705" r="7" fill="#CC3333" opacity="0.6"/>
       <rect x="453" y="718" width="54" height="8" rx="2" fill="#2A2520"/>
       <rect x="453" y="730" width="54" height="8" rx="2" fill="#2A2520"/>
-
+ 
       <!-- ── ENGINE BLOCK ── -->
       <rect x="860" y="685" width="100" height="55" rx="4" fill="#1E1C18" stroke="#2A2520" stroke-width="1"/>
       <rect x="870" y="692" width="35" height="20" rx="2" fill="#2A2520"/>
@@ -1658,14 +1658,14 @@ const CONFIG = {
       <circle cx="960" cy="595" r="11" fill="#2A2824" opacity="0.2"/>
       <circle cx="952" cy="575" r="14" fill="#252320" opacity="0.15"/>
       <circle cx="958" cy="552" r="16" fill="#222018" opacity="0.10"/>
-
+ 
       <!-- Orange glow under drum -->
       <ellipse cx="700" cy="615" rx="120" ry="20" fill="#FF6B00" opacity="0.06" filter="url(#glow)"/>
-
+ 
       <!-- Ground concrete splats -->
       <ellipse cx="940" cy="725" rx="45" ry="12" fill="#2A2822" opacity="0.4"/>
       <ellipse cx="960" cy="730" rx="20" ry="6" fill="#2A2822" opacity="0.3"/>
-
+ 
       <!-- Distant warehouse lines -->
       <line x1="0" y1="300" x2="350" y2="300" stroke="#1A1815" stroke-width="1" opacity="0.6"/>
       <line x1="0" y1="400" x2="280" y2="400" stroke="#1A1815" stroke-width="1" opacity="0.4"/>
@@ -1675,14 +1675,14 @@ const CONFIG = {
       <rect x="200" y="300" width="2" height="520" fill="#1A1815" opacity="0.3"/>
       <rect x="1150" y="300" width="2" height="520" fill="#1A1815" opacity="0.4"/>
       <rect x="1300" y="300" width="2" height="520" fill="#1A1815" opacity="0.3"/>
-
+ 
       <!-- Orange accent light source top right -->
       <ellipse cx="1300" cy="100" rx="200" ry="150" fill="#FF6B00" opacity="0.04"/>
       <ellipse cx="1350" cy="80" rx="100" ry="80" fill="#FF6B00" opacity="0.06"/>
     </svg>
   </div>
   <div class="login-gradient"></div>
-
+ 
   <div class="login-card">
     <div class="login-logo">
       <div class="login-logo-mark">
@@ -1705,9 +1705,9 @@ const CONFIG = {
       <div class="login-title">Altrad Plettac Ibérica</div>
       <div class="login-subtitle">GESTIÓN DE CARGAS · LEROY MERLIN</div>
     </div>
-
+ 
     <span class="login-label">Selecciona tu usuario para acceder</span>
-
+ 
     <div class="user-grid">
       <button class="user-btn" data-user="Admin" data-role="admin" onclick="selectUser(this)">
         <div class="user-avatar avatar-admin">AD</div>
@@ -1731,13 +1731,13 @@ const CONFIG = {
         </div>
       </button>
     </div>
-
+ 
     <button class="login-enter-btn" id="login-enter-btn" onclick="entrarApp()">Entrar</button>
-
+ 
     <div class="login-footer">ALTRAD GROUP · SISTEMA INTERNO · v2.0</div>
   </div>
 </div>
-
+ 
 <!-- ── HISTORIAL MODAL ── -->
 <div class="modal-overlay" id="modal-historial">
   <div class="modal" style="width:460px">
@@ -1751,8 +1751,8 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <div class="modal-overlay" id="modal-nueva">
   <div class="modal">
     <div class="modal-header">
@@ -1766,13 +1766,13 @@ const CONFIG = {
           <input type="date" class="form-control" id="f-fecha-carga">
         </div>
       </div>
-
+ 
       <div class="form-group full">
         <label class="form-label">Proveedores y pedidos *</label>
         <div id="f-proveedores-list" style="margin-bottom:6px"></div>
         <button type="button" class="add-prov-btn" onclick="addProveedorRow()">+ Añadir proveedor</button>
       </div>
-
+ 
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Fecha de cita (Leroy)</label>
@@ -1787,7 +1787,7 @@ const CONFIG = {
           </select>
         </div>
       </div>
-
+ 
       <div class="form-group full">
         <label class="form-label">Código TR completo (de Leroy)</label>
         <div style="display:flex;gap:8px;align-items:flex-start">
@@ -1802,7 +1802,7 @@ const CONFIG = {
           <button type="button" onclick="limpiarCitaSeleccionada()" style="margin-left:8px;font-size:11px;background:none;border:none;color:var(--red-dot);cursor:pointer">× Quitar</button>
         </div>
       </div>
-
+ 
       <div class="form-group full">
         <label class="form-label">Transportista *</label>
         <select class="form-control" id="f-transportista">
@@ -1811,7 +1811,7 @@ const CONFIG = {
           <option value="TW">TW — sale desde almacén API</option>
         </select>
       </div>
-
+ 
       <div class="form-group full">
         <label class="form-label">Notas</label>
         <input type="text" class="form-control" id="f-notas" placeholder="Observaciones opcionales...">
@@ -1823,7 +1823,7 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
+ 
 <!-- ── MODAL AVANZAR ESTADO ── -->
 <div class="modal-overlay" id="modal-estado">
   <div class="modal" style="width:420px">
@@ -1840,30 +1840,30 @@ const CONFIG = {
     </div>
   </div>
 </div>
-
+ 
 <!-- TOAST CONTAINER -->
 <div class="toast-container" id="toast-container"></div>
-
+ 
 <script>
 // ─────────────────────────────────────────────
 // USER SYSTEM
 // ─────────────────────────────────────────────
 let currentUser = { name: '', role: '' };
-
+ 
 function setConexion(estado, texto) {
   const badge = document.getElementById('conexion-badge');
   const txt   = document.getElementById('conexion-texto');
   badge.className = 'conexion-badge ' + estado;
   txt.textContent = texto;
 }
-
+ 
 function selectUser(btn) {
   document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   const enterBtn = document.getElementById('login-enter-btn');
   enterBtn.classList.add('ready');
 }
-
+ 
 async function entrarApp() {
   const selected = document.querySelector('.user-btn.selected');
   if (!selected) return;
@@ -1882,7 +1882,7 @@ async function entrarApp() {
   if (currentUser.role === 'admin') {
     document.getElementById('btn-config').style.display = '';
   }
-
+ 
   // Auto-connect to Sheets for all users
   const { SHEET_ID, API_KEY } = getConfig();
   if (SHEET_ID && SHEET_ID !== 'TU_SHEET_ID_AQUI' && API_KEY && API_KEY !== 'TU_API_KEY_AQUI') {
@@ -1904,7 +1904,7 @@ async function entrarApp() {
     }
   }
 }
-
+ 
 function cerrarSesion() {
   if (!confirm('¿Cerrar sesión y volver a la pantalla de inicio?')) return;
   currentUser = { name:'', role:'' };
@@ -1913,7 +1913,7 @@ function cerrarSesion() {
   document.getElementById('login-screen').classList.remove('hidden');
   document.getElementById('btn-config').style.display = 'none';
 }
-
+ 
 // ─────────────────────────────────────────────
 // DATA STORE
 // ─────────────────────────────────────────────
@@ -1921,7 +1921,7 @@ let cargas = [];
 let currentFilter = 'all';
 let editingId = null;
 let mostrarEntregadas = false;
-
+ 
 const ESTADOS = [
   { key: 's-posible-carga',    label: 'Posible carga',           sub: 'Carga identificada, pendiente de confirmar todo' },
   { key: 's-espera-cita',      label: 'Esperando cita',          sub: 'Leroy aún no ha enviado la cita fija' },
@@ -1933,7 +1933,7 @@ const ESTADOS = [
   { key: 's-lista-entrega',    label: 'Lista para entrega',      sub: 'Todo confirmado — lista para entregar en Leroy' },
   { key: 's-entregado',        label: 'Entregada en Leroy',      sub: 'Carga completada y entregada' },
 ];
-
+ 
 // Map old states to new ones
 const ESTADO_MIGRATION = {
   's-espera-extra':    's-pedir-cita-extra',
@@ -1946,7 +1946,7 @@ function migrateEstado(e) {
 }
 const ESTADO_LABELS = {};
 ESTADOS.forEach(e => ESTADO_LABELS[e.key] = e.label);
-
+ 
 const PROV_CLASS = {
   'DIKA+CASTA': 'prov-dika',
   'IRBAL':      'prov-irbal',
@@ -1957,7 +1957,7 @@ const PROV_SHORT = {
   'IRBAL':      'Hormigoneras',
   'API TW':     'API TW',
 };
-
+ 
 // ─────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────
@@ -1967,7 +1967,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // App loads after login — no auto-load here
 });
-
+ 
 // ─────────────────────────────────────────────
 // LOCAL STORAGE (fallback cuando no hay Sheets)
 // ─────────────────────────────────────────────
@@ -1979,11 +1979,11 @@ function loadFromStorage() {
     loadDemoData();
   }
 }
-
+ 
 function saveToStorage() {
   localStorage.setItem('cargas_data', JSON.stringify(cargas));
 }
-
+ 
 function loadDemoData() {
   cargas = [
     { id: uid(), fechaCarga:'2026-03-02', proveedor:'API TW', proveedores:[{prov:'API',pedido:''}], pedidoDika:'', pedidoCasta:'', pedidoIrbal:'', fechaCita:'2026-03-03', horaCita:'02:00', cod:'TRTOR1-0303260200-011-F', estado:'s-entregado', notas:'', transportista:'TW', checklist:{entregado:true}, historial:[] },
@@ -2002,7 +2002,7 @@ function loadDemoData() {
   updateCounts();
   toast('Datos de ejemplo cargados');
 }
-
+ 
 // ─────────────────────────────────────────────
 // GOOGLE SHEETS API
 // ─────────────────────────────────────────────
@@ -2010,7 +2010,7 @@ function loadDemoData() {
 // GOOGLE SHEETS — OAUTH + API KEY
 // ─────────────────────────────────────────────
 let oauthToken = localStorage.getItem('oauth_token') || null;
-
+ 
 function getConfig() {
   return {
     SHEET_ID:   localStorage.getItem('cfg_sheet_id')  || CONFIG.SHEET_ID,
@@ -2019,7 +2019,7 @@ function getConfig() {
     SHEET_NAME: CONFIG.SHEET_NAME,
   };
 }
-
+ 
 function saveConfig() {
   const sid = document.getElementById('cfg-sheet-id').value.trim();
   const key = document.getElementById('cfg-api-key').value.trim();
@@ -2036,7 +2036,7 @@ function saveConfig() {
   loadFromSheets();
   toggleConfig();
 }
-
+ 
 function iniciarOAuth() {
   const { CLIENT_ID } = getConfig();
   if (!CLIENT_ID || CLIENT_ID === 'TU_CLIENT_ID_AQUI') {
@@ -2065,7 +2065,7 @@ function iniciarOAuth() {
     toast('Error iniciando OAuth. Comprueba el Client ID.');
   }
 }
-
+ 
 async function loadFromSheets() {
   const { SHEET_ID, API_KEY, SHEET_NAME } = getConfig();
   if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY || API_KEY === 'TU_API_KEY_AQUI') {
@@ -2114,13 +2114,13 @@ async function loadFromSheets() {
     toast('No se pudo conectar. Comprueba Sheet ID y API Key.');
   }
 }
-
+ 
 async function saveToSheets() {
   const { SHEET_ID, SHEET_NAME } = getConfig();
   saveToStorage();
-
+ 
   if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI') return;
-
+ 
   // Always ensure a fresh token before writing
   const tokenOk = await ensureOAuthToken();
   if (!tokenOk) {
@@ -2128,7 +2128,7 @@ async function saveToSheets() {
     toast('Cambios guardados localmente. Ve a ⚙ → Autorizar escritura.');
     return;
   }
-
+ 
   const values = [
     ['ID','Fecha Carga','Proveedor','Pedido DIKA','Pedido CASTA','Pedido IRBAL',
      'Fecha Cita','Hora Cita','Código TR','Estado','Notas','Transportista',
@@ -2144,7 +2144,7 @@ async function saveToSheets() {
       JSON.stringify(c.checklist   || {}),
     ])
   ];
-
+ 
   try {
     setConexion('conectando', 'Guardando...');
     await fetch(
@@ -2167,9 +2167,9 @@ async function saveToSheets() {
     toast('Error al guardar en Sheets. Cambios guardados localmente.');
   }
 }
-
-
-
+ 
+ 
+ 
 // ─────────────────────────────────────────────
 // RENDER TABLE
 // ─────────────────────────────────────────────
@@ -2197,29 +2197,29 @@ function renderTable() {
     if (!query) return true;
     return (c.pedidoDika+c.pedidoCasta+c.pedidoIrbal+c.cod+c.notas+c.proveedor).toLowerCase().includes(query);
   });
-
+ 
   // Sort by fecha carga desc
   data.sort((a,b) => toSortable(b.fechaCarga).localeCompare(toSortable(a.fechaCarga)));
-
+ 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
-
+ 
   if (data.length === 0) {
     document.getElementById('empty-state').style.display = 'block';
     return;
   }
   document.getElementById('empty-state').style.display = 'none';
-
+ 
   data.forEach(c => {
     const tr = document.createElement('tr');
-
+ 
     const pedidos = proveedoresDisplay((c.proveedores && c.proveedores.length) ? c.proveedores : legacyProveedores(c));
     const fechaCargaFmt = c.fechaCarga ? fmtDate(c.fechaCarga) : '—';
     const fechaCitaFmt  = c.fechaCita  ? fmtDate(c.fechaCita)  : '—';
     const estadoKey  = ESTADOS.find(e => e.key === c.estado) ? c.estado : 's-posible-carga';
     const estadoInfo = ESTADOS.find(e => e.key === estadoKey) || ESTADOS[0];
     if (c.estado === 's-entregado') tr.style.opacity = '0.5';
-
+ 
     tr.innerHTML = `
       <td><span class="fecha-badge">${fechaCargaFmt}</span></td>
       <td>
@@ -2249,7 +2249,7 @@ function renderTable() {
     tbody.appendChild(tr);
   });
 }
-
+ 
 // ─────────────────────────────────────────────
 // FILTERS
 // ─────────────────────────────────────────────
@@ -2275,7 +2275,7 @@ function setFilter(f, el) {
   document.getElementById('toolbar-title').textContent = titles[f] || f;
   renderTable();
 }
-
+ 
 function updateCounts() {
   document.getElementById('cnt-all').textContent = cargas.length;
   ['posible-carga','espera-cita','pedir-cita-extra','cita-asignada','fab1-confirmada','fab-confirmada','espera-tpte','lista-entrega','entregado'].forEach(s => {
@@ -2290,7 +2290,7 @@ function updateCounts() {
   const badge = document.getElementById('cnt-entregadas-ocultas');
   if (badge) badge.textContent = cargas.filter(c => c.estado === 's-entregado').length;
 }
-
+ 
 function toggleEntregadas() {
   mostrarEntregadas = !mostrarEntregadas;
   const btn = document.getElementById('btn-toggle-entregadas');
@@ -2302,13 +2302,13 @@ function toggleEntregadas() {
   btn.appendChild(badge);
   renderTable();
 }
-
+ 
 function getMonday(d) {
   const day = d.getDay(), diff = d.getDate() - day + (day === 0 ? -6 : 1);
   return new Date(d.setDate(diff));
 }
-
-
+ 
+ 
 // ─────────────────────────────────────────────
 // DYNAMIC PROVIDERS
 // ─────────────────────────────────────────────
@@ -2318,7 +2318,7 @@ const PROV_OPTIONS = [
   { value: 'IRBAL', label: 'IRBAL',         placeholder: 'ej: 2600903' },
   { value: 'API',   label: 'Almacén API TW',placeholder: '—' },
 ];
-
+ 
 function addProveedorRow(provVal='', pedidoVal='') {
   const list = document.getElementById('f-proveedores-list');
   const opts = PROV_OPTIONS.map(p =>
@@ -2335,7 +2335,7 @@ function addProveedorRow(provVal='', pedidoVal='') {
   `;
   list.appendChild(div);
 }
-
+ 
 function getPedidoPlaceholder(val) {
   const p = PROV_OPTIONS.find(o => o.value === val);
   return p ? p.placeholder : 'Nº pedido';
@@ -2372,7 +2372,7 @@ function legacyProveedores(c) {
   }
   return out;
 }
-
+ 
 // ─────────────────────────────────────────────
 // CHECKLIST LOGIC
 // ─────────────────────────────────────────────
@@ -2380,11 +2380,11 @@ function calcEstadoFromChecklist(carga) {
   const provs  = (carga.proveedores && carga.proveedores.length) ? carga.proveedores : legacyProveedores(carga);
   const checks = carga.checklist || {};
   const fabProvs = provs.filter(p => p.prov !== 'API');
-
+ 
   // Walk down from highest to lowest state
   if (checks['entregado'])  return 's-entregado';
   if (checks['tpte'])       return 's-lista-entrega';
-
+ 
   if (fabProvs.length > 0) {
     const conf = fabProvs.filter(p => checks['fab_'+p.prov]);
     if (conf.length === fabProvs.length) return 's-espera-tpte';
@@ -2393,13 +2393,13 @@ function calcEstadoFromChecklist(carga) {
     if (carga.cod && carga.cod !== '') return 's-cita-asignada';
     return 's-posible-carga';
   }
-
+ 
   // API TW — no fabs to confirm
   if (checks['tpte'])      return 's-lista-entrega';
   if (carga.cod && carga.cod !== '') return 's-cita-asignada';
   return 's-posible-carga';
 }
-
+ 
 function buildChecklist(carga) {
   const provs  = (carga.proveedores && carga.proveedores.length) ? carga.proveedores : legacyProveedores(carga);
   const checks = carga.checklist || {};
@@ -2414,7 +2414,7 @@ function buildChecklist(carga) {
   items.push({ key: 'entregado', label: 'Entregada en Leroy', done: !!checks['entregado'] });
   return items;
 }
-
+ 
 function openChecklist(id) {
   const c = cargas.find(x => x.id === id);
   if (!c) return;
@@ -2423,14 +2423,14 @@ function openChecklist(id) {
   const info  = document.getElementById('modal-estado-info');
   info.textContent = `Checklist · ${fmtDate(c.fechaCarga)} · ${proveedoresShort(c.proveedores||legacyProveedores(c))||c.proveedor}`;
   steps.innerHTML = '';
-
+ 
   // Estado badge at top
   const estadoInfo = ESTADOS.find(e => e.key === c.estado) || ESTADOS[0];
   const badgeDiv = document.createElement('div');
   badgeDiv.style.cssText = 'margin-bottom:10px;display:flex;align-items:center;gap:8px';
   badgeDiv.innerHTML = `<span style="font-size:11px;color:var(--text3)">Estado actual:</span><span class="estado-badge ${c.estado}"><span class="estado-dot"></span>${estadoInfo.label}</span>`;
   steps.appendChild(badgeDiv);
-
+ 
   // Checklist items
   const clDiv = document.createElement('div');
   clDiv.className = 'checklist-wrap';
@@ -2438,7 +2438,7 @@ function openChecklist(id) {
   titleDiv.className = 'checklist-title';
   titleDiv.textContent = 'Confirmaciones';
   clDiv.appendChild(titleDiv);
-
+ 
   items.forEach(item => {
     const row = document.createElement('label');
     row.className = 'checklist-item' + (item.done ? ' done' : '');
@@ -2481,7 +2481,7 @@ function openChecklist(id) {
   steps.appendChild(clDiv);
   document.getElementById('modal-estado').classList.add('open');
 }
-
+ 
 // ─────────────────────────────────────────────
 // NUEVA / EDITAR CARGA
 // ─────────────────────────────────────────────
@@ -2492,7 +2492,7 @@ function openNuevaCarga() {
   addProveedorRow();
   document.getElementById('modal-nueva').classList.add('open');
 }
-
+ 
 function editarCarga(id) {
   editingId = id;
   const c = cargas.find(x => x.id === id);
@@ -2510,21 +2510,33 @@ function editarCarga(id) {
   if (!provs.length) addProveedorRow();
   document.getElementById('modal-nueva').classList.add('open');
 }
-
+ 
 function guardarCarga() {
   const fechaCarga  = document.getElementById('f-fecha-carga').value;
   const proveedores = getProveedoresFromForm();
   if (!fechaCarga)         { toast('La fecha de carga es obligatoria'); return; }
   if (!proveedores.length) { toast('Añade al menos un proveedor'); return; }
   if (proveedores.some(p => !p.prov)) { toast('Selecciona el proveedor en cada fila'); return; }
-
+ 
+  // Check for duplicate TR code
+  const codTR = document.getElementById('f-cod').value.trim();
+  if (codTR) {
+    const duplicada = cargas.find(c => c.cod && c.cod.trim() === codTR && c.id !== editingId);
+    if (duplicada) {
+      const confirmar = confirm(
+        `⚠️ El código TR "${codTR}" ya está asignado a otra carga (${fmtDate(duplicada.fechaCarga)} · ${PROV_SHORT[duplicada.proveedor]||duplicada.proveedor}).\n\nDos cargas no deberían tener el mismo código TR. ¿Quieres guardarlo igualmente?`
+      );
+      if (!confirmar) return;
+    }
+  }
+ 
   const ahora = new Date().toLocaleString('es-ES');
   const dikaProv  = proveedores.find(p => p.prov === 'DIKA');
   const castaProv = proveedores.find(p => p.prov === 'CASTA');
   const irbalProv = proveedores.find(p => p.prov === 'IRBAL');
   const provLegacy = (dikaProv||castaProv) ? 'DIKA+CASTA' : irbalProv ? 'IRBAL' : 'API TW';
   const existente = editingId ? cargas.find(c => c.id === editingId) : null;
-
+ 
   const carga = {
     id:            editingId || uid(),
     fechaCarga,
@@ -2542,7 +2554,7 @@ function guardarCarga() {
     checklist:     existente ? (existente.checklist || {}) : {},
     historial:     [],
   };
-
+ 
   if (editingId) {
     const idx = cargas.findIndex(c => c.id === editingId);
     if (idx !== -1) {
@@ -2564,13 +2576,13 @@ function guardarCarga() {
     }
     toast('Carga añadida');
   }
-
+ 
   saveToSheets();
   renderTable();
   updateCounts();
   closeModal('modal-nueva');
 }
-
+ 
 function clearForm() {
   ['f-fecha-carga','f-fecha-cita','f-hora-cita','f-cod','f-notas','f-transportista'].forEach(id => {
     const el = document.getElementById(id);
@@ -2583,11 +2595,11 @@ function clearForm() {
   const preview = document.getElementById('cita-seleccionada-preview');
   if (preview) preview.style.display = 'none';
 }
-
+ 
 function actualizarFormProv() {} // legacy stub
-
-
-
+ 
+ 
+ 
 // ─────────────────────────────────────────────
 // ESTADO MODAL
 // ─────────────────────────────────────────────
@@ -2596,7 +2608,7 @@ function openEstado(id) {
   if (!c) return;
   document.getElementById('modal-estado-info').textContent =
     `Carga: ${fmtDate(c.fechaCarga)} · ${PROV_SHORT[c.proveedor]||c.proveedor}`;
-
+ 
   const steps = document.getElementById('estado-steps');
   steps.innerHTML = '';
   ESTADOS.forEach(e => {
@@ -2632,10 +2644,10 @@ function openEstado(id) {
     }
     steps.appendChild(div);
   });
-
+ 
   document.getElementById('modal-estado').classList.add('open');
 }
-
+ 
 function estadoIcon(key) {
   const icons = {
     's-posible-carga':    '🔘',
@@ -2650,7 +2662,7 @@ function estadoIcon(key) {
   };
   return icons[key] || '·';
 }
-
+ 
 // ─────────────────────────────────────────────
 // ELIMINAR
 // ─────────────────────────────────────────────
@@ -2663,7 +2675,7 @@ async function eliminarCarga(id) {
   updateTabCounts();
   toast('Carga eliminada');
 }
-
+ 
 // ─────────────────────────────────────────────
 // HISTORIAL
 // ─────────────────────────────────────────────
@@ -2697,7 +2709,7 @@ document.addEventListener('click', e => {
     document.getElementById('export-dropdown').classList.remove('open');
   }
 });
-
+ 
 function getDataActual() {
   const query = document.getElementById('search-input').value.toLowerCase();
   let data = cargas.filter(c => {
@@ -2723,7 +2735,7 @@ function getDataActual() {
   data.sort((a,b) => toSortable(b.fechaCarga).localeCompare(toSortable(a.fechaCarga)));
   return data;
 }
-
+ 
 function exportarCSV() {
   document.getElementById('export-dropdown').classList.remove('open');
   const data = getDataActual();
@@ -2756,7 +2768,7 @@ function exportarCSV() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   toast('CSV exportado — ábrelo directamente con Excel');
 }
-
+ 
 function guardarPDF() {
   document.getElementById('export-dropdown').classList.remove('open');
   const data = getDataActual();
@@ -2835,7 +2847,7 @@ function guardarPDF() {
   setTimeout(() => URL.revokeObjectURL(url), 8000);
   toast('Se abre el PDF — en el diálogo elige "Guardar como PDF"');
 }
-
+ 
 function imprimirTabla() {
   document.getElementById('export-dropdown').classList.remove('open');
   const data = getDataActual();
@@ -2847,8 +2859,8 @@ function imprimirTabla() {
   setTimeout(() => { document.getElementById('print-header').style.display = 'none'; }, 1000);
   toast('Enviando a impresora...');
 }
-
-
+ 
+ 
 // ─────────────────────────────────────────────
 // LIMPIEZA DE CARGAS ANTIGUAS (+90 DÍAS)
 // ─────────────────────────────────────────────
@@ -2866,20 +2878,20 @@ async function limpiarCargasAntiguas() {
     const dias = Math.floor((hoy - fecha) / 86400000);
     return dias >= 90;
   });
-
+ 
   const info = document.getElementById('limpiar-info');
-
+ 
   if (!candidatas.length) {
     info.textContent = 'No hay cargas entregadas con más de 90 días.';
     info.style.color = 'var(--text3)';
     return;
   }
-
+ 
   const confirmar = confirm(
     `Se van a eliminar ${candidatas.length} carga${candidatas.length > 1 ? 's' : ''} entregadas con más de 90 días.\n\nEsta acción es irreversible. ¿Continuar?`
   );
   if (!confirmar) return;
-
+ 
   const ids = new Set(candidatas.map(c => c.id));
   cargas = cargas.filter(c => !ids.has(c.id));
   await saveToSheets();
@@ -2890,7 +2902,7 @@ async function limpiarCargasAntiguas() {
   info.style.color = 'var(--green-dot)';
   toast(`${candidatas.length} carga${candidatas.length > 1 ? 's antiguas eliminadas' : ' antigua eliminada'}`);
 }
-
+ 
 // ─────────────────────────────────────────────
 // CONFIG PANEL
 // ─────────────────────────────────────────────
@@ -2906,21 +2918,21 @@ function toggleConfig() {
     if (btnOAuth && localStorage.getItem('cfg_client_id')) btnOAuth.style.display = '';
   }
 }
-
+ 
 // ─────────────────────────────────────────────
 // UTILS
 // ─────────────────────────────────────────────
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2,6);
 }
-
+ 
 function fmtDate(d) {
   if (!d) return '—';
   if (d.includes('/')) return d;
   const [y,m,dd] = d.split('-');
   return `${dd}/${m}/${y}`;
 }
-
+ 
 function toSortable(d) {
   if (!d) return '';
   if (d.includes('/')) {
@@ -2929,7 +2941,7 @@ function toSortable(d) {
   }
   return d;
 }
-
+ 
 function toast(msg) {
   const el = document.createElement('div');
   el.className = 'toast';
@@ -2937,12 +2949,12 @@ function toast(msg) {
   document.getElementById('toast-container').appendChild(el);
   setTimeout(() => el.remove(), 3000);
 }
-
+ 
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
 }
-
-
+ 
+ 
 // ─────────────────────────────────────────────
 // TABS
 // ─────────────────────────────────────────────
@@ -2952,21 +2964,21 @@ function switchTab(tab) {
   document.getElementById('cargas-panel').classList.toggle('hidden', tab !== 'cargas');
   document.getElementById('citas-panel').classList.toggle('active',  tab === 'citas');
 }
-
+ 
 // ─────────────────────────────────────────────
 // CITAS DATA
 // ─────────────────────────────────────────────
 let citas = [];
-
+ 
 function loadCitasFromStorage() {
   const saved = localStorage.getItem('citas_data');
   citas = saved ? JSON.parse(saved) : [];
 }
-
+ 
 function saveCitasToStorage() {
   localStorage.setItem('citas_data', JSON.stringify(citas));
 }
-
+ 
 async function loadCitasFromSheets() {
   const { SHEET_ID, API_KEY } = getConfig();
   if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY) return;
@@ -2991,7 +3003,7 @@ async function loadCitasFromSheets() {
     renderCitas();
   }
 }
-
+ 
 async function ensureOAuthToken() {
   const { CLIENT_ID } = getConfig();
   if (!CLIENT_ID || CLIENT_ID === 'TU_CLIENT_ID_AQUI') return false;
@@ -3020,20 +3032,20 @@ async function ensureOAuthToken() {
     }
   });
 }
-
+ 
 async function saveCitasToSheets() {
   const { SHEET_ID } = getConfig();
   saveCitasToStorage();
   citas.forEach((c, i) => { c.id = String(i + 1); });
   if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI') return;
-
+ 
   // Always ensure a fresh token before writing
   const tokenOk = await ensureOAuthToken();
   if (!tokenOk) {
     toast('Sin autorización. Ve a ⚙ → Autorizar escritura.');
     return;
   }
-
+ 
   const values = [
     ['ID','Código TR','Fecha','Hora','Texto original'],
     ...citas.map(c => [c.id, c.cod, c.fecha, c.hora, c.raw])
@@ -3057,18 +3069,18 @@ async function saveCitasToSheets() {
     toast('Error al guardar citas en Sheets. Guardado localmente.');
   }
 }
-
+ 
 // ─────────────────────────────────────────────
 // PARSEAR CITA LEROY
 // ─────────────────────────────────────────────
 function parsearLineaCita(linea) {
   linea = linea.trim();
   if (!linea) return null;
-
+ 
   // Extract TR code — pattern TRTOR1-...
   const codMatch = linea.match(/TRTOR1-[\w-]+/i);
   const cod = codMatch ? codMatch[0].toUpperCase() : '';
-
+ 
   // Extract date DD/MM/YYYY
   const fechaMatch = linea.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
   let fecha = '';
@@ -3078,16 +3090,16 @@ function parsearLineaCita(linea) {
     const yyyy = fechaMatch[3].length === 2 ? '20'+fechaMatch[3] : fechaMatch[3];
     fecha = `${dd}/${mm}/${yyyy}`;
   }
-
+ 
   // Extract time HH:MM
   const horaMatch = linea.match(/(\d{1,2}):(\d{2})\s*h?/i);
   const hora = horaMatch ? `${horaMatch[1].padStart(2,'0')}:${horaMatch[2]}` : '';
-
+ 
   if (!cod && !fecha) return null;
   // Correlative ID based on timestamp order — will be renumbered on save
   return { id: 'CITA-' + Date.now(), cod, fecha, hora, raw: linea };
 }
-
+ 
 function parsearCita() {
   const input = document.getElementById('cita-input').value;
   const lineas = input.split('\n').filter(l => l.trim());
@@ -3101,13 +3113,13 @@ function parsearCita() {
     </div>`
   ).join('');
 }
-
+ 
 function openAnadirCita() {
   document.getElementById('cita-input').value = '';
   document.getElementById('cita-preview').className = 'cita-preview';
   document.getElementById('modal-cita').classList.add('open');
 }
-
+ 
 function guardarCitas() {
   const input  = document.getElementById('cita-input').value;
   const lineas = input.split('\n').filter(l => l.trim());
@@ -3123,11 +3135,11 @@ function guardarCitas() {
   closeModal('modal-cita');
   toast(`${parsed.length} cita${parsed.length>1?'s':''} añadida${parsed.length>1?'s':''}`);
 }
-
+ 
 function ordenarCitas() {
   citas.sort((a,b) => toSortable(a.fecha).localeCompare(toSortable(b.fecha)) || a.hora.localeCompare(b.hora));
 }
-
+ 
 function diasRestantes(fecha) {
   if (!fecha) return null;
   const [dd,mm,yyyy] = fecha.split('/');
@@ -3136,7 +3148,7 @@ function diasRestantes(fecha) {
   const diff = Math.round((d - hoy) / 86400000);
   return diff;
 }
-
+ 
 // ─────────────────────────────────────────────
 // RENDER CITAS
 // ─────────────────────────────────────────────
@@ -3178,7 +3190,7 @@ function renderCitas() {
       </div>`;
   }).join('');
 }
-
+ 
 async function eliminarCita(id) {
   if (!confirm('¿Eliminar esta cita?')) return;
   citas = citas.filter(c => c.id !== id);
@@ -3187,25 +3199,25 @@ async function eliminarCita(id) {
   updateTabCounts();
   toast('Cita eliminada');
 }
-
+ 
 // ─────────────────────────────────────────────
 // ASIGNAR CITA A CARGA
 // ─────────────────────────────────────────────
 let citaAsignandoId = null;
-
+ 
 function openAsignarCita(citaId) {
   citaAsignandoId = citaId;
   const cita = citas.find(c => c.id === citaId);
   if (!cita) return;
-
+ 
   document.getElementById('asignar-info').innerHTML =
     `Asignando: <strong>${cita.cod||'Sin TR'}</strong> — ${cita.fecha} a las ${cita.hora}`;
-
+ 
   // Show cargas without cita assigned, sorted by fechaCarga
   const candidatas = cargas
     .filter(c => !c.cod || c.cod === '')
     .sort((a,b) => toSortable(a.fechaCarga).localeCompare(toSortable(b.fechaCarga)));
-
+ 
   const list = document.getElementById('asignar-list');
   if (!candidatas.length) {
     list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px">No hay cargas sin cita asignada.</div>';
@@ -3225,12 +3237,12 @@ function openAsignarCita(citaId) {
   }
   document.getElementById('modal-asignar').classList.add('open');
 }
-
+ 
 function asignarCitaACarga(citaId, cargaId) {
   const cita  = citas.find(c => c.id === citaId);
   const carga = cargas.find(c => c.id === cargaId);
   if (!cita || !carga) return;
-
+ 
   const ahora = new Date().toLocaleString('es-ES');
   carga.cod      = cita.cod;
   carga.fechaCita = cita.fecha;
@@ -3244,10 +3256,10 @@ function asignarCitaACarga(citaId, cargaId) {
     accion:  `Cita asignada: ${cita.cod} — ${cita.fecha} ${cita.hora}`,
     fecha:   ahora
   });
-
+ 
   // Remove cita from list
   citas = citas.filter(c => c.id !== citaId);
-
+ 
   saveToSheets();
   saveCitasToSheets();
   renderTable();
@@ -3257,7 +3269,7 @@ function asignarCitaACarga(citaId, cargaId) {
   closeModal('modal-asignar');
   toast(`Cita asignada a la carga del ${fmtDate(carga.fechaCarga)} — estado actualizado a Cita asignada`);
 }
-
+ 
 function updateTabCounts() {
   const cntCargas = document.getElementById('tab-cnt-cargas');
   const cntCitas  = document.getElementById('tab-cnt-citas');
@@ -3267,12 +3279,12 @@ function updateTabCounts() {
   const badge = document.getElementById('badge-citas-disponibles');
   if (badge) badge.textContent = citas.length;
 }
-
+ 
 // ─────────────────────────────────────────────
 // SELECTOR DE CITAS EN FORMULARIO
 // ─────────────────────────────────────────────
 let citaSeleccionadaId = null;
-
+ 
 function abrirSelectorCitas() {
   const lista = document.getElementById('selector-citas-lista');
   if (!citas.length) {
@@ -3308,15 +3320,15 @@ function abrirSelectorCitas() {
   }
   document.getElementById('modal-selector-citas').classList.add('open');
 }
-
+ 
 function seleccionarCitaEnFormulario(citaId) {
   const cita = citas.find(c => c.id === citaId);
   if (!cita) return;
   citaSeleccionadaId = citaId;
-
+ 
   // Fill form fields
   document.getElementById('f-cod').value = cita.cod || '';
-
+ 
   // Fill fecha — convert DD/MM/YYYY to YYYY-MM-DD for date input
   if (cita.fecha) {
     const [dd, mm, yyyy] = cita.fecha.split('/');
@@ -3324,7 +3336,7 @@ function seleccionarCitaEnFormulario(citaId) {
       document.getElementById('f-fecha-cita').value = `${yyyy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`;
     }
   }
-
+ 
   // Fill hora
   const horaSelect = document.getElementById('f-hora-cita');
   const horaOpts = Array.from(horaSelect.options).map(o => o.value);
@@ -3337,17 +3349,17 @@ function seleccionarCitaEnFormulario(citaId) {
     horaSelect.appendChild(opt);
     horaSelect.value = cita.hora;
   }
-
+ 
   // Show preview
   const preview = document.getElementById('cita-seleccionada-preview');
   const txt     = document.getElementById('cita-sel-txt');
   txt.textContent = `${cita.cod||'—'} · ${cita.fecha||'—'} a las ${cita.hora||'—'}`;
   preview.style.display = 'block';
-
+ 
   closeModal('modal-selector-citas');
   toast('Cita seleccionada — completa el resto de campos y guarda');
 }
-
+ 
 function limpiarCitaSeleccionada() {
   citaSeleccionadaId = null;
   document.getElementById('f-cod').value = '';
@@ -3355,9 +3367,9 @@ function limpiarCitaSeleccionada() {
   document.getElementById('f-hora-cita').value = '';
   document.getElementById('cita-seleccionada-preview').style.display = 'none';
 }
-
-
-
+ 
+ 
+ 
 // ─────────────────────────────────────────────
 // DRAGGABLE MODALS
 // ─────────────────────────────────────────────
@@ -3366,7 +3378,7 @@ function makeDraggable(overlay) {
   const header = overlay.querySelector('.modal-header');
   if (!modal || !header) return;
   let isDragging = false, startX, startY, origLeft, origTop;
-
+ 
   header.addEventListener('mousedown', e => {
     if (e.target.classList.contains('modal-close')) return;
     isDragging = true;
@@ -3381,7 +3393,7 @@ function makeDraggable(overlay) {
     origLeft = rect.left; origTop = rect.top;
     e.preventDefault();
   });
-
+ 
   document.addEventListener('mousemove', e => {
     if (!isDragging) return;
     let newLeft = origLeft + (e.clientX - startX);
@@ -3391,23 +3403,23 @@ function makeDraggable(overlay) {
     modal.style.left = newLeft + 'px';
     modal.style.top  = newTop  + 'px';
   });
-
+ 
   document.addEventListener('mouseup', () => { isDragging = false; });
 }
-
+ 
 function resetModalPosition(overlay) {
   const modal = overlay.querySelector('.modal');
   if (modal) { modal.style.position = ''; modal.style.left = ''; modal.style.top = ''; modal.style.margin = ''; }
   overlay.style.alignItems = ''; overlay.style.justifyContent = '';
 }
-
+ 
 document.querySelectorAll('.modal-overlay').forEach(o => {
   makeDraggable(o);
   o.addEventListener('click', e => {
     if (e.target === o) { o.classList.remove('open'); resetModalPosition(o); }
   });
 });
-
+ 
 // Also reset position when closeModal is called
 const _origCloseModal = closeModal;
 closeModal = function(id) {
@@ -3415,7 +3427,8 @@ closeModal = function(id) {
   const o = document.getElementById(id);
   if (o) resetModalPosition(o);
 };
-
+ 
 </script>
 </body>
 </html>
+ 
