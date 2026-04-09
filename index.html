@@ -347,6 +347,8 @@ body {
 .s-fab-confirmada .estado-dot { background: #16A05A; }
 .s-espera-tpte      { background: #E1F5EE; color: #085041; }
 .s-espera-tpte .estado-dot { background: #0D9E88; }
+.s-tpte-pedido      { background: #E6F1FB; color: #0A4A7A; }
+.s-tpte-pedido .estado-dot { background: #1878C8; }
 .s-lista-entrega    { background: #EEEDFE; color: #3C3489; }
 .s-lista-entrega .estado-dot { background: #534AB7; }
 .s-entregado        { background: #EDE8FF; color: #3A1A7A; }
@@ -1291,6 +1293,9 @@ const CONFIG = {
     <button class="sidebar-item" data-filter="s-espera-tpte" onclick="setFilter('s-espera-tpte',this)">
       Esperando tpte. <span class="count" id="cnt-espera-tpte">0</span>
     </button>
+    <button class="sidebar-item" data-filter="s-tpte-pedido" onclick="setFilter('s-tpte-pedido',this)">
+      Transporte pedido <span class="count" id="cnt-tpte-pedido">0</span>
+    </button>
     <button class="sidebar-item" data-filter="s-lista-entrega" onclick="setFilter('s-lista-entrega',this)">
       Lista para entrega <span class="count" id="cnt-lista-entrega">0</span>
     </button>
@@ -1414,6 +1419,7 @@ const CONFIG = {
       <div class="legend-item"><div class="legend-dot" style="background:#639922"></div> 1 fábrica conf.</div>
       <div class="legend-item"><div class="legend-dot" style="background:#16A05A"></div> Fábricas OK</div>
       <div class="legend-item"><div class="legend-dot" style="background:#0D9E88"></div> Esperando tpte.</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1878C8"></div> Transporte pedido</div>
       <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div> Lista para entrega</div>
       <div class="legend-item"><div class="legend-dot" style="background:#6B3FD4"></div> Entregada</div>
     </div>
@@ -1930,6 +1936,7 @@ const ESTADOS = [
   { key: 's-fab1-confirmada',  label: 'Fábrica parcial',         sub: '1 fábrica confirmada, esperando la otra' },
   { key: 's-fab-confirmada',   label: 'Fábricas confirmadas',    sub: 'Todas las fábricas han confirmado la carga' },
   { key: 's-espera-tpte',      label: 'Esperando transporte',    sub: 'Fábricas OK — pendiente confirmar transportista' },
+  { key: 's-tpte-pedido',      label: 'Transporte pedido',        sub: 'Transporte solicitado — pendiente de confirmación' },
   { key: 's-lista-entrega',    label: 'Lista para entrega',      sub: 'Todo confirmado — lista para entregar en Leroy' },
   { key: 's-entregado',        label: 'Entregada en Leroy',      sub: 'Carga completada y entregada' },
 ];
@@ -2266,6 +2273,7 @@ function setFilter(f, el) {
     's-fab1-confirmada':  '1 fábrica confirmada',
     's-fab-confirmada':   'Fábricas confirmadas',
     's-espera-tpte':      'Esperando transporte',
+    's-tpte-pedido':      'Transporte pedido',
     's-lista-entrega':    'Lista para entrega',
     's-entregado':        'Entregada en Leroy',
     'DIKA+CASTA': 'Carretillas (DIKA + CASTA)',
@@ -2278,7 +2286,7 @@ function setFilter(f, el) {
  
 function updateCounts() {
   document.getElementById('cnt-all').textContent = cargas.length;
-  ['posible-carga','espera-cita','pedir-cita-extra','cita-asignada','fab1-confirmada','fab-confirmada','espera-tpte','lista-entrega','entregado'].forEach(s => {
+  ['posible-carga','espera-cita','pedir-cita-extra','cita-asignada','fab1-confirmada','fab-confirmada','espera-tpte','tpte-pedido','lista-entrega','entregado'].forEach(s => {
     const el = document.getElementById('cnt-' + s);
     if (el) el.textContent = cargas.filter(c => c.estado === 's-' + s).length;
   });
@@ -2382,8 +2390,9 @@ function calcEstadoFromChecklist(carga) {
   const fabProvs = provs.filter(p => p.prov !== 'API');
  
   // Walk down from highest to lowest state
-  if (checks['entregado'])  return 's-entregado';
-  if (checks['tpte'])       return 's-lista-entrega';
+  if (checks['entregado'])   return 's-entregado';
+  if (checks['tpte'])        return 's-lista-entrega';
+  if (checks['tpte_pedido']) return 's-tpte-pedido';
  
   if (fabProvs.length > 0) {
     const conf = fabProvs.filter(p => checks['fab_'+p.prov]);
@@ -2410,6 +2419,7 @@ function buildChecklist(carga) {
     const label = p.prov === 'DIKA' ? 'DIKALOFER confirmada' : p.prov === 'CASTA' ? 'CASTANHEIRAS confirmada' : 'IRBAL confirmada';
     items.push({ key, label, done: !!checks[key] });
   });
+  items.push({ key: 'tpte_pedido', label: 'Transporte pedido', done: !!checks['tpte_pedido'] });
   items.push({ key: 'tpte', label: 'Transporte confirmado', done: !!checks['tpte'] });
   items.push({ key: 'entregado', label: 'Entregada en Leroy', done: !!checks['entregado'] });
   return items;
@@ -2657,6 +2667,7 @@ function estadoIcon(key) {
     's-fab1-confirmada':  '🔶',
     's-fab-confirmada':   '✅',
     's-espera-tpte':      '🚚',
+    's-tpte-pedido':      '📋',
     's-lista-entrega':    '📦',
     's-entregado':        '🟣',
   };
@@ -2817,6 +2828,7 @@ function guardarPDF() {
     .e-s-fab1-confirmada{background:#EAF3DE;color:#3B6D11}
     .e-s-fab-confirmada{background:#D8F5E8;color:#0A5530}
     .e-s-espera-tpte{background:#E1F5EE;color:#085041}
+    .e-s-tpte-pedido{background:#E6F1FB;color:#0A4A7A}
     .e-s-lista-entrega{background:#EEEDFE;color:#3C3489}
     .e-s-entregado{background:#EDE8FF;color:#3A1A7A}
     .footer{margin-top:12px;font-size:8px;color:#bbb;text-align:center;border-top:1px solid #eee;padding-top:8px}
@@ -3431,4 +3443,3 @@ closeModal = function(id) {
 </script>
 </body>
 </html>
- 
