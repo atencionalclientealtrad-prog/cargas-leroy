@@ -1929,6 +1929,7 @@ async function entrarApp() {
     setConexion('conectando', 'Conectando...');
     await loadFromSheets();
     await loadCitasFromSheets();
+    iniciarAutoRefresh();
   } else {
     setConexion('desconectado', 'Sin base de datos');
     loadFromStorage();
@@ -1945,8 +1946,67 @@ async function entrarApp() {
   }
 }
  
+let autoRefreshInterval = null;
+ 
+function iniciarAutoRefresh() {
+  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+  autoRefreshInterval = setInterval(async () => {
+    const { SHEET_ID, API_KEY } = getConfig();
+    if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY) return;
+    try {
+      // Silent refresh — load from sheets without toast
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Cargas?key=${API_KEY}`;
+      const res  = await fetch(url);
+      const data = await res.json();
+      if (data.error || !data.values || data.values.length < 2) return;
+      const [, ...rows] = data.values;
+      cargas = rows.map(r => ({
+        id:           r[0]  || uid(),
+        fechaCarga:   r[1]  || '',
+        proveedor:    r[2]  || '',
+        pedidoDika:   r[3]  || '',
+        pedidoCasta:  r[4]  || '',
+        pedidoIrbal:  r[5]  || '',
+        fechaCita:    r[6]  || '',
+        horaCita:     r[7]  || '',
+        cod:          r[8]  || '',
+        estado:       migrateEstado(r[9]),
+        notas:        r[10] || '',
+        transportista:r[11] || '',
+        proveedores:  r[14] ? (() => { try { return JSON.parse(r[14]); } catch(e) { return []; } })() : [],
+        checklist:    r[15] ? (() => { try { return JSON.parse(r[15]); } catch(e) { return {}; } })() : {},
+        historial:    r[13] ? (() => { try { return JSON.parse(r[13]); } catch(e) { return []; } })() : [],
+      }));
+      saveToStorage();
+      renderTable();
+      updateCounts();
+      updateTabCounts();
+      // Also refresh citas silently
+      const urlC = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Citas?key=${API_KEY}`;
+      const resC = await fetch(urlC);
+      const dataC = await resC.json();
+      if (!dataC.error && dataC.values && dataC.values.length >= 2) {
+        const [, ...rowsC] = dataC.values;
+        citas = rowsC.map(r => ({
+          id:    r[0] || uid(),
+          cod:   r[1] || '',
+          fecha: r[2] || '',
+          hora:  r[3] || '',
+          raw:   r[4] || '',
+        }));
+        saveCitasToStorage();
+        renderCitas();
+        updateTabCounts();
+      }
+    } catch(e) {
+      // Silent fail — don't interrupt the user
+    }
+  }, 30000); // every 30 seconds
+}
+ 
 function cerrarSesion() {
   if (!confirm('¿Cerrar sesión y volver a la pantalla de inicio?')) return;
+  if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
   currentUser = { name:'', role:'' };
   document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('login-enter-btn').classList.remove('ready');
