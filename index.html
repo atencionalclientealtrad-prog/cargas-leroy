@@ -3231,15 +3231,49 @@ function guardarCitas() {
   const lineas = input.split('\n').filter(l => l.trim());
   const parsed = lineas.map(parsearLineaCita).filter(Boolean);
   if (!parsed.length) { toast('No se encontraron citas válidas — comprueba el formato'); return; }
-  citas.push(...parsed);
+ 
+  // Check duplicates against existing citas list AND existing cargas
+  const duplicadasEnLista   = [];
+  const duplicadasEnCargas  = [];
+  const nuevas = [];
+ 
+  parsed.forEach(p => {
+    if (!p.cod) { nuevas.push(p); return; }
+    // Already in citas por asignar?
+    const enLista = citas.find(c => c.cod && c.cod.trim().toUpperCase() === p.cod.toUpperCase());
+    if (enLista) { duplicadasEnLista.push(p.cod); return; }
+    // Already assigned to a carga?
+    const enCarga = cargas.find(c => c.cod && c.cod.trim().toUpperCase() === p.cod.toUpperCase());
+    if (enCarga) { duplicadasEnCargas.push(p.cod); return; }
+    nuevas.push(p);
+  });
+ 
+  // Build warning message if any duplicates found
+  let aviso = '';
+  if (duplicadasEnLista.length) {
+    aviso += `⚠️ Las siguientes citas ya están en la lista y no se añadirán:\n${duplicadasEnLista.join('\n')}\n\n`;
+  }
+  if (duplicadasEnCargas.length) {
+    aviso += `⚠️ Las siguientes citas ya están asignadas a una carga y no se añadirán:\n${duplicadasEnCargas.join('\n')}\n\n`;
+  }
+ 
+  if (!nuevas.length) {
+    alert(`${aviso}No se ha añadido ninguna cita nueva.`);
+    return;
+  }
+ 
+  if (aviso) {
+    alert(`${aviso}Se añadirán ${nuevas.length} cita${nuevas.length > 1 ? 's' : ''} nueva${nuevas.length > 1 ? 's' : ''}. Continúa con las siguientes.`);
+  }
+ 
+  citas.push(...nuevas);
   ordenarCitas();
-  // Renumber all IDs correlativamente
   citas.forEach((c, i) => { c.id = String(i + 1); });
   saveCitasToSheets();
   renderCitas();
   updateTabCounts();
   closeModal('modal-cita');
-  toast(`${parsed.length} cita${parsed.length>1?'s':''} añadida${parsed.length>1?'s':''}`);
+  toast(`${nuevas.length} cita${nuevas.length>1?'s':''} añadida${nuevas.length>1?'s':''} correctamente`);
 }
  
 function ordenarCitas() {
