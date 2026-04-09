@@ -1522,6 +1522,40 @@ const CONFIG = {
   </div>
 </div>
  
+<!-- ── MODAL EDITAR CITA ── -->
+<div class="modal-overlay" id="modal-editar-cita">
+  <div class="modal" style="width:420px">
+    <div class="modal-header">
+      <span class="modal-title">Editar cita</span>
+      <button class="modal-close" onclick="closeModal('modal-editar-cita')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group full">
+        <label class="form-label">Código TR</label>
+        <input type="text" class="form-control" id="ec-cod" placeholder="ej: TRTOR1-0903260200-011-F" style="font-family:'DM Mono',monospace;font-size:12px">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fecha de entrega</label>
+          <input type="date" class="form-control" id="ec-fecha">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hora de entrega</label>
+          <select class="form-control" id="ec-hora">
+            <option value="">— Hora —</option>
+            <option>00:00</option><option>01:00</option><option>02:00</option>
+            <option>03:00</option><option>04:00</option><option>23:00</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-editar-cita')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarEdicionCita()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ── LOGIN SCREEN ── -->
 <div class="login-screen" id="login-screen">
   <!-- Scaffold background -->
@@ -3197,10 +3231,64 @@ function renderCitas() {
         </div>
         <div class="cita-actions">
           <button class="act-btn avanzar" onclick="openAsignarCita('${c.id}')">Asignar a carga</button>
+          <button class="act-btn" onclick="editarCita('${c.id}')" title="Editar cita">✏️</button>
           <button class="act-btn danger" onclick="eliminarCita('${c.id}')">✕</button>
         </div>
       </div>`;
   }).join('');
+}
+ 
+ 
+let citaEditandoId = null;
+ 
+function editarCita(id) {
+  const cita = citas.find(c => c.id === id);
+  if (!cita) return;
+  citaEditandoId = id;
+  document.getElementById('ec-cod').value = cita.cod || '';
+  // Convert DD/MM/YYYY to YYYY-MM-DD for date input
+  if (cita.fecha) {
+    const [dd, mm, yyyy] = cita.fecha.split('/');
+    document.getElementById('ec-fecha').value = dd && mm && yyyy ? `${yyyy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}` : '';
+  } else {
+    document.getElementById('ec-fecha').value = '';
+  }
+  // Set hora
+  const horaSelect = document.getElementById('ec-hora');
+  const opts = Array.from(horaSelect.options).map(o => o.value);
+  if (opts.includes(cita.hora)) {
+    horaSelect.value = cita.hora;
+  } else if (cita.hora) {
+    const opt = document.createElement('option');
+    opt.value = cita.hora; opt.text = cita.hora;
+    horaSelect.appendChild(opt);
+    horaSelect.value = cita.hora;
+  } else {
+    horaSelect.value = '';
+  }
+  document.getElementById('modal-editar-cita').classList.add('open');
+}
+ 
+async function guardarEdicionCita() {
+  const cita = citas.find(c => c.id === citaEditandoId);
+  if (!cita) return;
+  const cod   = document.getElementById('ec-cod').value.trim();
+  const fecha = document.getElementById('ec-fecha').value;
+  const hora  = document.getElementById('ec-hora').value;
+  if (!fecha) { toast('La fecha es obligatoria'); return; }
+  cita.cod  = cod;
+  cita.hora = hora;
+  // Convert YYYY-MM-DD back to DD/MM/YYYY
+  if (fecha) {
+    const [y, m, d] = fecha.split('-');
+    cita.fecha = `${d}/${m}/${y}`;
+  }
+  cita.raw = `${cod}${cod ? ', ' : ''}para el día ${cita.fecha} a las ${hora} h.`;
+  ordenarCitas();
+  await saveCitasToSheets();
+  renderCitas();
+  closeModal('modal-editar-cita');
+  toast('Cita actualizada');
 }
  
 async function eliminarCita(id) {
