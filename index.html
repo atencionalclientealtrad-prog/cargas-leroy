@@ -2615,7 +2615,7 @@ function editarCarga(id) {
   document.getElementById('modal-nueva').classList.add('open');
 }
  
-function guardarCarga() {
+async function guardarCarga() {
   const fechaCarga  = document.getElementById('f-fecha-carga').value;
   const proveedores = getProveedoresFromForm();
   if (!fechaCarga)         { toast('La fecha de carga es obligatoria'); return; }
