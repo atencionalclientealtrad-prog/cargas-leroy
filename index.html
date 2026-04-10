@@ -2673,17 +2673,20 @@ function guardarCarga() {
     // If a cita was selected from the pending list, remove it
     if (citaSeleccionadaId) {
       citas = citas.filter(c => c.id !== citaSeleccionadaId);
-      saveCitasToSheets();
-      renderCitas();
-      updateTabCounts();
       citaSeleccionadaId = null;
     }
     toast('Carga añadida');
   }
  
-  saveToSheets();
+  // Pause auto-refresh during save to avoid race condition
+  if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+  await saveToSheets();
+  await saveCitasToSheets();
+  iniciarAutoRefresh();
   renderTable();
+  renderCitas();
   updateCounts();
+  updateTabCounts();
   closeModal('modal-nueva');
 }
  
@@ -3432,13 +3435,13 @@ function openAsignarCita(citaId) {
   document.getElementById('modal-asignar').classList.add('open');
 }
  
-function asignarCitaACarga(citaId, cargaId) {
+async function asignarCitaACarga(citaId, cargaId) {
   const cita  = citas.find(c => c.id === citaId);
   const carga = cargas.find(c => c.id === cargaId);
   if (!cita || !carga) return;
  
   const ahora = new Date().toLocaleString('es-ES');
-  carga.cod      = cita.cod;
+  carga.cod       = cita.cod;
   carga.fechaCita = cita.fecha;
   carga.horaCita  = cita.hora;
   if (carga.estado === 's-posible-carga' || carga.estado === 's-espera-cita') {
@@ -3454,8 +3457,16 @@ function asignarCitaACarga(citaId, cargaId) {
   // Remove cita from list
   citas = citas.filter(c => c.id !== citaId);
  
-  saveToSheets();
-  saveCitasToSheets();
+  // Pause auto-refresh during save to avoid race condition
+  if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+ 
+  // Save both in order and await both
+  await saveToSheets();
+  await saveCitasToSheets();
+ 
+  // Restart auto-refresh after save is complete
+  iniciarAutoRefresh();
+ 
   renderTable();
   renderCitas();
   updateCounts();
