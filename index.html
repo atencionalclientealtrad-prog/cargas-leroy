@@ -1948,13 +1948,24 @@ async function entrarApp() {
  
 let autoRefreshInterval = null;
  
+let lastKnownTimestamp = null;
+ 
 function iniciarAutoRefresh() {
   if (autoRefreshInterval) clearInterval(autoRefreshInterval);
   autoRefreshInterval = setInterval(async () => {
     const { SHEET_ID, API_KEY } = getConfig();
     if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI' || !API_KEY) return;
     try {
-      // Silent refresh — load from sheets without toast
+      // Check only the timestamp cell first — lightweight single-cell read
+      const urlTs = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Meta!A1?key=${API_KEY}`;
+      const resTs = await fetch(urlTs);
+      const dataTs = await resTs.json();
+      if (dataTs.error) return;
+      const ts = dataTs.values && dataTs.values[0] && dataTs.values[0][0] ? dataTs.values[0][0] : null;
+      if (ts && ts === lastKnownTimestamp) return; // nothing changed — skip full reload
+      lastKnownTimestamp = ts;
+ 
+      // Timestamp changed — do full reload of Cargas
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Cargas?key=${API_KEY}`;
       const res  = await fetch(url);
       const data = await res.json();
@@ -1981,7 +1992,7 @@ function iniciarAutoRefresh() {
       renderTable();
       updateCounts();
       updateTabCounts();
-      // Also refresh citas silently
+      // Also reload Citas
       const urlC = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Citas?key=${API_KEY}`;
       const resC = await fetch(urlC);
       const dataC = await resC.json();
@@ -2001,7 +2012,7 @@ function iniciarAutoRefresh() {
     } catch(e) {
       // Silent fail — don't interrupt the user
     }
-  }, 30000); // every 30 seconds
+  }, 5000); // every 5 seconds — lightweight timestamp check
 }
  
 function cerrarSesion() {
@@ -2262,6 +2273,17 @@ async function saveToSheets() {
     );
     const data = await res.json();
     if (data.error) throw new Error(data.error.message);
+    // Write timestamp to Meta!A1 so other users detect the change immediately
+    const tsNow = String(Date.now());
+    lastKnownTimestamp = tsNow;
+    await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Meta!A1?valueInputOption=RAW`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${oauthToken}` },
+        body: JSON.stringify({ range: 'Meta!A1', majorDimension: 'ROWS', values: [[tsNow]] }),
+      }
+    );
     setConexion('conectado', 'Conectado · Escritura activa');
   } catch(e) {
     setConexion('desconectado', 'Error al guardar');
@@ -2576,7 +2598,7 @@ function openChecklist(id) {
           fecha: ahora
         });
       }
-      saveToSheets();
+      await saveToSheets();
       renderTable();
       updateCounts();
     });
@@ -2672,10 +2694,14 @@ async function guardarCarga() {
     cargas.push(carga);
     // Pause auto-refresh BEFORE removing the cita to avoid race condition
     if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
-    // If a cita was selected from the pending list, remove it
-    if (citaSeleccionadaId) {
-      citas = citas.filter(c => c.id !== citaSeleccionadaId);
+    // If a cita was selected from the pending list, remove it by TR code (stable) with id fallback
+    if (citaSeleccionadaId || citaSeleccionadaCod) {
+      citas = citas.filter(c => {
+        if (citaSeleccionadaCod && c.cod) return c.cod.trim().toUpperCase() !== citaSeleccionadaCod.trim().toUpperCase();
+        return c.id !== citaSeleccionadaId;
+      });
       citaSeleccionadaId = null;
+      citaSeleccionadaCod = null;
     }
     toast('Carga añadida');
   }
@@ -2741,7 +2767,7 @@ function openEstado(id) {
             accion: `Estado cambiado: "${estadoAnterior}" → "${e.label}"`,
             fecha: ahora
           });
-          saveToSheets();
+          await saveToSheets();
           renderTable();
           updateCounts();
           toast('Estado actualizado: ' + e.label);
@@ -3488,6 +3514,7 @@ function updateTabCounts() {
 // SELECTOR DE CITAS EN FORMULARIO
 // ─────────────────────────────────────────────
 let citaSeleccionadaId = null;
+let citaSeleccionadaCod = null;
  
 function abrirSelectorCitas() {
   const lista = document.getElementById('selector-citas-lista');
@@ -3529,6 +3556,7 @@ function seleccionarCitaEnFormulario(citaId) {
   const cita = citas.find(c => c.id === citaId);
   if (!cita) return;
   citaSeleccionadaId = citaId;
+  citaSeleccionadaCod = cita.cod || null;
  
   // Fill form fields
   document.getElementById('f-cod').value = cita.cod || '';
@@ -3566,6 +3594,7 @@ function seleccionarCitaEnFormulario(citaId) {
  
 function limpiarCitaSeleccionada() {
   citaSeleccionadaId = null;
+  citaSeleccionadaCod = null;
   document.getElementById('f-cod').value = '';
   document.getElementById('f-fecha-cita').value = '';
   document.getElementById('f-hora-cita').value = '';
