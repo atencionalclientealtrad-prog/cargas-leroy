@@ -2670,6 +2670,8 @@ async function guardarCarga() {
   } else {
     carga.historial = [{ usuario: currentUser.name, accion: 'Carga creada · Estado: Posible carga', fecha: ahora }];
     cargas.push(carga);
+    // Pause auto-refresh BEFORE removing the cita to avoid race condition
+    if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
     // If a cita was selected from the pending list, remove it
     if (citaSeleccionadaId) {
       citas = citas.filter(c => c.id !== citaSeleccionadaId);
@@ -2678,8 +2680,6 @@ async function guardarCarga() {
     toast('Carga añadida');
   }
  
-  // Pause auto-refresh during save to avoid race condition
-  if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
   await saveToSheets();
   await saveCitasToSheets();
   iniciarAutoRefresh();
