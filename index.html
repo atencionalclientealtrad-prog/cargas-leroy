@@ -3145,7 +3145,6 @@ async function ensureOAuthToken() {
 async function saveCitasToSheets() {
   const { SHEET_ID } = getConfig();
   saveCitasToStorage();
-  citas.forEach((c, i) => { c.id = String(i + 1); });
   if (!SHEET_ID || SHEET_ID === 'TU_SHEET_ID_AQUI') return;
  
   // Always ensure a fresh token before writing
