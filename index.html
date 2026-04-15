@@ -2569,7 +2569,7 @@ function openChecklist(id) {
     const row = document.createElement('label');
     row.className = 'checklist-item' + (item.done ? ' done' : '');
     row.innerHTML = `<input type="checkbox" ${item.done ? 'checked' : ''}> ${item.label}`;
-    row.querySelector('input').addEventListener('change', function() {
+    row.querySelector('input').addEventListener('change', async function() {
       const carga = cargas.find(x => x.id === id);
       if (!carga) return;
       if (!carga.checklist) carga.checklist = {};
@@ -2755,7 +2755,7 @@ function openEstado(id) {
       </div>
     `;
     if (e.key !== c.estado) {
-      div.onclick = () => {
+      div.onclick = async () => {
         const carga = cargas.find(x => x.id === id);
         if (carga) {
           const ahora = new Date().toLocaleString('es-ES');
@@ -3479,11 +3479,15 @@ async function asignarCitaACarga(citaId, cargaId) {
     fecha:   ahora
   });
  
-  // Remove cita from list
-  citas = citas.filter(c => c.id !== citaId);
- 
-  // Pause auto-refresh during save to avoid race condition
+  // Pause auto-refresh BEFORE removing cita to avoid race condition
   if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+ 
+  // Remove cita from list — filter by TR code (stable) with id fallback
+  const citaCod = cita.cod || null;
+  citas = citas.filter(c => {
+    if (citaCod && c.cod) return c.cod.trim().toUpperCase() !== citaCod.trim().toUpperCase();
+    return c.id !== citaId;
+  });
  
   // Save both in order and await both
   await saveToSheets();
