@@ -2250,7 +2250,7 @@ async function loadFromSheets() {
   }
 }
 
-async function saveToSheets() {
+async function saveToSheets(bumpMeta = true) {
   const { SHEET_ID, SHEET_NAME } = getConfig();
   saveToStorage();
 
@@ -2283,7 +2283,7 @@ async function saveToSheets() {
   // Mark save in progress and bump generation — any zombie fetch will be discarded.
   isSaving = true;
   saveGeneration++;
-  console.log('[save cargas] start', { gen: saveGeneration, nCargas: cargas.length });
+  console.log('[save cargas] start', { gen: saveGeneration, nCargas: cargas.length, bumpMeta });
 
   try {
     setConexion('conectando', 'Guardando...');
@@ -2301,19 +2301,26 @@ async function saveToSheets() {
     );
     const data = await res.json();
     if (data.error) throw new Error(data.error.message);
-    // Write timestamp to Meta!A1 so other users detect the change in <5s
-    const tsNow = String(Date.now());
-    lastKnownTimestamp = tsNow;
-    await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Meta!A1?valueInputOption=RAW`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${oauthToken}` },
-        body: JSON.stringify({ range: 'Meta!A1', majorDimension: 'ROWS', values: [[tsNow]] }),
-      }
-    );
     setConexion('conectado', 'Conectado · Escritura activa');
-    console.log('[save cargas] ok', { gen: saveGeneration, ts: tsNow });
+    // Only update Meta!A1 when this is the last (or only) save in the chain.
+    // When saveCitasToSheets() follows, skip here to avoid triggering other users'
+    // auto-refresh before the Citas sheet is also updated — that would show a
+    // stale citas state to everyone else for up to 5 seconds.
+    if (bumpMeta) {
+      const tsNow = String(Date.now());
+      lastKnownTimestamp = tsNow;
+      await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Meta!A1?valueInputOption=RAW`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${oauthToken}` },
+          body: JSON.stringify({ range: 'Meta!A1', majorDimension: 'ROWS', values: [[tsNow]] }),
+        }
+      );
+      console.log('[save cargas] ok + meta', { gen: saveGeneration, ts: tsNow });
+    } else {
+      console.log('[save cargas] ok (meta deferred to saveCitasToSheets)', { gen: saveGeneration });
+    }
   } catch(e) {
     setConexion('desconectado', 'Error al guardar');
     toast('Error al guardar en Sheets. Cambios guardados localmente.');
@@ -2636,7 +2643,7 @@ function openChecklist(id) {
       updateCounts();
       (async () => {
         try {
-          await saveToSheets();
+          await saveToSheets(false);
           await saveCitasToSheets();
         } finally {
           iniciarAutoRefresh();
@@ -2763,7 +2770,7 @@ async function guardarCarga() {
   if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
   (async () => {
     try {
-      await saveToSheets();
+      await saveToSheets(false);
       await saveCitasToSheets();
     } finally {
       iniciarAutoRefresh();
@@ -2830,7 +2837,7 @@ function openEstado(id) {
           toast('Estado actualizado: ' + e.label);
           (async () => {
             try {
-              await saveToSheets();
+              await saveToSheets(false);
               await saveCitasToSheets();
             } finally {
               iniciarAutoRefresh();
@@ -2876,7 +2883,7 @@ async function eliminarCarga(id) {
   toast('Carga eliminada');
   (async () => {
     try {
-      await saveToSheets();
+      await saveToSheets(false);
       await saveCitasToSheets();
     } finally {
       iniciarAutoRefresh();
@@ -3605,7 +3612,7 @@ async function asignarCitaACarga(citaId, cargaId) {
   // Sync to Sheets in background; resume auto-refresh when done
   (async () => {
     try {
-      await saveToSheets();
+      await saveToSheets(false);
       await saveCitasToSheets();
     } finally {
       iniciarAutoRefresh();
