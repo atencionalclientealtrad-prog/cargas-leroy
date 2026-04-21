@@ -3223,17 +3223,20 @@ async function loadCitasFromSheets() {
 async function ensureOAuthToken() {
   const { CLIENT_ID } = getConfig();
   if (!CLIENT_ID || CLIENT_ID === 'TU_CLIENT_ID_AQUI') return false;
+  // If we already have a token, use it directly — avoids calling requestAccessToken()
+  // twice in the same save chain (browsers block the second popup immediately)
+  if (oauthToken) return true;
   return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(false), 10000);
     try {
       const client = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: 'https://www.googleapis.com/auth/spreadsheets',
         prompt: '',
         callback: (resp) => {
+          clearTimeout(timeout);
           if (resp.error) {
-            // Silent renewal failed — token still valid or needs user interaction
-            // If we already have a token, assume it's still ok
-            resolve(!!oauthToken);
+            resolve(false);
             return;
           }
           oauthToken = resp.access_token;
@@ -3244,7 +3247,8 @@ async function ensureOAuthToken() {
       });
       client.requestAccessToken();
     } catch(e) {
-      resolve(!!oauthToken);
+      clearTimeout(timeout);
+      resolve(false);
     }
   });
 }
