@@ -2635,7 +2635,12 @@ function openChecklist(id) {
       renderTable();
       updateCounts();
       (async () => {
-        try { await saveToSheets(); } finally { iniciarAutoRefresh(); }
+        try {
+          await saveToSheets();
+          await saveCitasToSheets();
+        } finally {
+          iniciarAutoRefresh();
+        }
       })();
     });
     clDiv.appendChild(row);
@@ -2775,6 +2780,7 @@ function clearForm() {
   if (list) list.innerHTML = '';
   // Reset cita selector
   citaSeleccionadaId = null;
+  citaSeleccionadaCod = null;
   const preview = document.getElementById('cita-seleccionada-preview');
   if (preview) preview.style.display = 'none';
 }
@@ -2823,7 +2829,12 @@ function openEstado(id) {
           updateCounts();
           toast('Estado actualizado: ' + e.label);
           (async () => {
-            try { await saveToSheets(); } finally { iniciarAutoRefresh(); }
+            try {
+              await saveToSheets();
+              await saveCitasToSheets();
+            } finally {
+              iniciarAutoRefresh();
+            }
           })();
         }
         closeModal('modal-estado');
@@ -2864,7 +2875,12 @@ async function eliminarCarga(id) {
   updateTabCounts();
   toast('Carga eliminada');
   (async () => {
-    try { await saveToSheets(); } finally { iniciarAutoRefresh(); }
+    try {
+      await saveToSheets();
+      await saveCitasToSheets();
+    } finally {
+      iniciarAutoRefresh();
+    }
   })();
 }
 
