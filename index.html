@@ -1750,7 +1750,7 @@ function setColorTexto(c){document.querySelectorAll('#color-picker-row .color-sw
 function getColorTexto(){const a=document.querySelector('#color-picker-row .color-swatch.sel');return a&&a.dataset.color?a.dataset.color:null;}
 async function guardarEntrada(){
   const cliente=document.getElementById('m-cliente').value.trim();
-  if(!cliente)return;
+  if(!cliente){alert('Falta el cliente');return;}
   const datos={
     tipo:document.getElementById('m-tipo').value,cliente,
     transportista:document.getElementById('m-transportista').value||null,
@@ -1762,22 +1762,37 @@ async function guardarEntrada(){
     notas:document.getElementById('m-notas')?document.getElementById('m-notas').value||null:null,
     color_texto:getColorTexto(),
   };
-  let err=null;
-  if(entradaEditId){
-    const nf=document.getElementById('m-fecha')?.value;
-    if(nf)datos.fecha=nf;
-    const res=await sb.from('entradas').update(datos).eq('id',entradaEditId);
-    err=res.error;
-  } else {
-    datos.panel=panelActual;
-    const fr=document.getElementById('m-fecha-row');
-    datos.fecha=(fr&&!fr.classList.contains('hidden')&&document.getElementById('m-fecha')?.value)||diaKey;
-    datos.creado_por=usuario?.nombre||'Sistema';
-    const res=await sb.from('entradas').insert(datos);
-    err=res.error;
+  try{
+    let res;
+    if(entradaEditId){
+      const nf=document.getElementById('m-fecha')?.value;
+      if(nf)datos.fecha=nf;
+      console.log('[guardarEntrada] UPDATE id=',entradaEditId,' datos=',datos);
+      res=await sb.from('entradas').update(datos).eq('id',entradaEditId).select();
+    } else {
+      datos.panel=panelActual;
+      const fr=document.getElementById('m-fecha-row');
+      datos.fecha=(fr&&!fr.classList.contains('hidden')&&document.getElementById('m-fecha')?.value)||diaKey;
+      datos.creado_por=usuario?.nombre||'Sistema';
+      console.log('[guardarEntrada] INSERT datos=',datos);
+      res=await sb.from('entradas').insert(datos).select();
+    }
+    console.log('[guardarEntrada] respuesta Supabase =',res);
+    if(res.error){
+      alert('Supabase ha rechazado la operación:\n\n'+res.error.message+'\n\nCódigo: '+(res.error.code||'-')+'\nDetalle: '+(res.error.details||'-')+'\nHint: '+(res.error.hint||'-'));
+      return;
+    }
+    if(!res.data||res.data.length===0){
+      alert('Supabase no ha devuelto datos. Normalmente es una política RLS bloqueando la operación silenciosamente. Revisa SELECT/INSERT policies en la tabla entradas.');
+      return;
+    }
+    cerrarModal();
+    await cargarEntradas();
+    await cargarResumenHoy();
+  }catch(e){
+    console.error('[guardarEntrada] excepción:',e);
+    alert('Error inesperado: '+(e.message||e));
   }
-  if(err){alert('Error al guardar: '+err.message);return;}
-  cerrarModal();await cargarEntradas();await cargarResumenHoy();
 }
 async function eliminarEntrada(){
   if(!entradaEditId)return;
